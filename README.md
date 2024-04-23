@@ -1,5 +1,3 @@
-#  Easy Selenium
-
 <p align="center">
   <img 
     src="easy-selenium.png"
