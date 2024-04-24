@@ -18,7 +18,7 @@ const safariEngine = () => {
 		builder.then(() => {
 			resolve(builder);
 		}).catch(() => {
-			throw new Error('A error occurred while building chrome engine');
+			throw new Error('A error occurred while building safari engine');
 		});
 	});
 };
@@ -29,9 +29,20 @@ const firefoxEngine = () => {
 		builder.then(() => {
 			resolve(builder);
 		}).catch(() => {
-			throw new Error('A error occurred while building chrome engine');
+			throw new Error('A error occurred while building firefox engine');
 		});
 	});
 };
 
-export { chromeEngine, firefoxEngine, safariEngine };
+const edgeEngine = () => {
+	new Promise((resolve) => {
+		const builder = new Builder().forBrowser(buildBrowerType.edge).build();
+		builder.then(() => {
+			resolve(builder);
+		}).catch(() => {
+			throw new Error('A error occurred while building edge engine');
+		});
+	});
+};
+
+export { chromeEngine, edgeEngine, firefoxEngine, safariEngine };
