@@ -1,11 +1,1 @@
-{
-  "imports": {
-    "@src/": "./src/",
-    "@engines/": "./src/engines/",
-    "@constants/": "./src/constants/",
-    "@utils": "./src/utils/",
-
-    "selenium-webdriver": "npm:selenium-webdriver",
-    "assert": "jsr:@std/assert"
-  }
-}
+{}
