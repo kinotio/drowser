@@ -3,7 +3,6 @@
     "@src/": "./src/",
     "@core/": "./src/core/",
     "@constants": "./src/constants/index.ts",
-    "@utils/": "./src/utils/",
     "@types": "./src/types/index.ts",
     "@deps": "./deps.ts",
 
