@@ -1,8 +1,3 @@
-import {
-	chromeEngine,
-	edgeEngine,
-	firefoxEngine,
-	safariEngine,
-} from '@core/engines.ts';
+import driver from '@pkg/engines/driver.ts'
 
-export { chromeEngine, edgeEngine, firefoxEngine, safariEngine };
+export { driver }

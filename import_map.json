@@ -1,9 +1,6 @@
 {
   "imports": {
-    "@src/": "./src/",
-    "@core/": "./src/core/",
-    "@constants": "./src/constants/index.ts",
-    "@types": "./src/types/index.ts",
+    "@pkg/": "./",
     "@deps": "./deps.ts",
 
     "selenium-webdriver": "npm:selenium-webdriver",
