@@ -4,7 +4,9 @@
     "specifiers": {
       "jsr:@std/assert": "jsr:@std/assert@0.223.0",
       "jsr:@std/fmt@^0.223.0": "jsr:@std/fmt@0.223.0",
+      "npm:@types/lodash@^4.17.0": "npm:@types/lodash@4.17.0",
       "npm:@types/selenium-webdriver@^4.1.22": "npm:@types/selenium-webdriver@4.1.22",
+      "npm:lodash": "npm:lodash@4.17.21",
       "npm:selenium-webdriver": "npm:selenium-webdriver@4.19.0"
     },
     "jsr": {
@@ -19,6 +21,10 @@
       }
     },
     "npm": {
+      "@types/lodash@4.17.0": {
+        "integrity": "sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==",
+        "dependencies": {}
+      },
       "@types/node@18.16.19": {
         "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
         "dependencies": {}
@@ -65,6 +71,10 @@
         "dependencies": {
           "immediate": "immediate@3.0.6"
         }
+      },
+      "lodash@4.17.21": {
+        "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==",
+        "dependencies": {}
       },
       "pako@1.0.11": {
         "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
@@ -122,5 +132,12 @@
       }
     }
   },
-  "remote": {}
+  "redirects": {
+    "https://deno.land/x/lodash/lodash.js": "https://deno.land/x/lodash@4.17.19/lodash.js"
+  },
+  "remote": {
+    "https://cdn.skypack.dev/-/lodash-es@v4.17.21-rDGl8YjBUjcrrAbjNrmo/dist=es2019,mode=imports/optimized/lodash-es.js": "4a1b35d34b5e0d3ae68aa46ddaabb9700ccecb75b830974db7c46a271f10daa8",
+    "https://cdn.skypack.dev/lodash-es?dts": "7dc1d11c01e46bf442774791267f7ca93f6cc204451ac648f2560b0cd6c91524",
+    "https://deno.land/x/lodash@4.17.19/lodash.js": "efa0ecfaf5548e32a16e18d3700436cd146c48b4f3712f095dae6f00100018e5"
+  }
 }

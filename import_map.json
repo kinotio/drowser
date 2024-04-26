@@ -4,6 +4,7 @@
     "@deps": "./deps.ts",
 
     "selenium-webdriver": "npm:selenium-webdriver",
-    "assert": "jsr:@std/assert"
+    "assert": "jsr:@std/assert",
+    "lodash": "https://cdn.skypack.dev/lodash-es?dts"
   }
 }
