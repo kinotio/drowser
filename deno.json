@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "importMap": "./import_map.json",
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --watch lib.ts"
   },
   "publish": {
     "include": ["dist/", "README.md", "deno.json"]

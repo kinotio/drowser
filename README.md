@@ -1,12 +1,12 @@
 <p align="center">
   <img 
-    src="easy-selenium.png"
-    alt="Easy Selenium"
+    src="drowser.png"
+    alt="Drowser"
     style="width:100%;"
   />
 </p>
 
-A easy way to implement and write selenium with TypeScript using Deno 🦕
+A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 
 ## LICENSE

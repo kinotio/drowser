@@ -1,5 +1,9 @@
 // @deno-types="npm:@types/selenium-webdriver@^4.1.22"
-import { Builder, Browser } from "selenium-webdriver";
-import { assertEquals } from "assert";
+import { Browser, Builder } from 'selenium-webdriver'
 
-export { assertEquals, Builder, Browser };
+// @deno-types="https://cdn.skypack.dev/@types/lodash?dts"
+import { isEmpty } from 'lodash'
+
+import { assertEquals } from 'assert'
+
+export { assertEquals, Browser, Builder, isEmpty }
