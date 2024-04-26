@@ -5,5 +5,6 @@ import { Browser, Builder } from 'selenium-webdriver'
 import { isEmpty } from 'lodash'
 
 import { assertEquals } from 'assert'
+import { join } from 'mod'
 
-export { assertEquals, Browser, Builder, isEmpty }
+export { assertEquals, Browser, Builder, isEmpty, join }

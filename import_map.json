@@ -5,6 +5,7 @@
 
     "selenium-webdriver": "npm:selenium-webdriver",
     "assert": "jsr:@std/assert",
-    "lodash": "https://cdn.skypack.dev/lodash-es?dts"
+    "lodash": "https://cdn.skypack.dev/lodash-es?dts",
+    "mod": "https://deno.land/std@0.223.0/path/mod.ts"
   }
 }
