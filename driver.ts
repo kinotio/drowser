@@ -69,8 +69,7 @@ const driver = async (
 			.build() as ThenableWebDriver
 
 		driver.then(() => {
-			driver.get(appUrl)
-			resolve(driver)
+			driver.get(appUrl).then(() => resolve(driver))
 		}).catch((err) => reject(err)).finally(() => driver.quit())
 	})
 }
