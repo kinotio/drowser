@@ -2,7 +2,8 @@
   "version": "0.0.1",
   "importMap": "./import_map.json",
   "tasks": {
-    "run:example:basic": "deno run -A --watch examples/basic.ts"
+    "run:example:basic": "deno run -A examples/basic.ts",
+    "watch:example:basic": "deno run -A --watch examples/basic.ts"
   },
   "publish": {
     "include": ["dist/", "README.md", "deno.json"]
