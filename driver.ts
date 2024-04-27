@@ -1,18 +1,12 @@
 import { Browser, Builder, isEmpty, join } from '@deps'
 import type { ThenableWebDriver } from '@deps'
+import type {
+	TConfigJSON,
+	TData,
+	TDriverParams,
+	TOmitedThenableWebDriver,
+} from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
-
-type TDriverParams = {
-	browserType: TDriverBrowser
-	exportPdf?: boolean
-	exportLog?: boolean
-}
-
-type TDriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'
-
-type TConfigJSON = {
-	url: string
-}
 
 const driverBrowserType = ['chrome', 'firefox', 'safari', 'edge']
 
@@ -25,10 +19,10 @@ const driverBrowser = {
 
 const driver = async (
 	{ browserType, exportPdf = false, exportLog = true }: TDriverParams,
-): Promise<ThenableWebDriver> => {
+): Promise<TOmitedThenableWebDriver> => {
 	console.log({ browserType, exportPdf, exportLog })
 
-	let appUrl: string
+	const data: TData = { url: '' }
 
 	try {
 		const configPath = join(Deno.cwd(), 'drowser.json')
@@ -41,7 +35,7 @@ const driver = async (
 			)
 		}
 
-		appUrl = url
+		data.url = url
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
 			throw new Error(
@@ -62,15 +56,16 @@ const driver = async (
 		)
 	}
 
-	return new Promise<ThenableWebDriver>((resolve, reject) => {
+	return new Promise<TOmitedThenableWebDriver>((resolve, reject) => {
+		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
+
 		const driver = new Builder().forBrowser(
 			driverBrowser[browserType],
 		)
 			.build() as ThenableWebDriver
 
-		driver.then(() => {
-			driver.get(appUrl).then(() => resolve(driver))
-		}).catch((err) => reject(err)).finally(() => driver.quit())
+		driver.get(data.url).then(() => resolve(driver)).catch((err) => reject(err))
+		// .finally(() => driver.quit()) //TODO: Need to find a solution to handle this internaly
 	})
 }
 
