@@ -1,5 +1,5 @@
 <p align="center">
-  <img 
+  <img
     src="drowser.png"
     alt="Drowser"
     style="width:100%;"
@@ -56,7 +56,7 @@ import { assert , driver } from "./deps.ts"
 import type { TDrowserBuilder } from "drowser"
 
 const testTitle = (builder: TDrowserBuilder) => {
-	builder.getTitle().then((t) => {
+  builder.getTitle().then((t) => {
 		try {
 			const tVal = "Todo App"
 			assert.assertEquals(t, tVal)
