@@ -14,12 +14,28 @@ export type TConfigJSON = {
 
 export type TData = {
 	url: string
-	log?: any
-	results?: any
+	log?: Array<{ [key: string]: any }>
+	results?: Array<{ [key: string]: any }>
 }
 
 export type TAssertError = {
 	name: string
 }
 
-export type TOmitedThenableWebDriver = Omit<ThenableWebDriver, 'get'>
+export type TDrowserThenableWebDriver = ThenableWebDriver
+
+export type TDrowserBuilder = Omit<
+	ThenableWebDriver,
+	'get'
+>
+
+export type TDrowserService = {
+	results: Array<{ [key: string]: any }>
+	generatePdf(): Promise<string>
+	generateLog(): Promise<string>
+}
+
+export type TDrowserDriverResponse = {
+	builder: TDrowserBuilder
+	service: TDrowserService
+}
