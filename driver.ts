@@ -66,7 +66,7 @@ const driver = async (
 
 		builder.get(data.url).then(() => resolve({ builder, service }))
 			.catch((err) => reject(err))
-			// .finally(() => resolve(builder)) //TODO: Need to find a solution to handle this internaly
+			// .finally(() => builder.quit()) //TODO: Need to find a solution to handle this internaly
 			.finally(() => {
 				if (exportLog) generatedLog()
 				if (exportPdf) generatedPdf()
