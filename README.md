@@ -1,5 +1,5 @@
 <p align="center">
-  <img 
+  <img
     src="drowser.png"
     alt="Drowser"
     style="width:100%;"
@@ -42,7 +42,7 @@ You can define it inside your import_map.json config, like this:
 
 And call it inside deps.ts very easy, like this:
 
-```js
+```ts
 import { assert, driver } from "drowser"
 export { assert, driver }
 ```
@@ -51,12 +51,12 @@ export { assert, driver }
 
 In you test file , you can define a sample test like this:
 
-```js
+```ts
 import { assert , driver } from "./deps.ts"
 import type { TDrowserBuilder } from "drowser"
 
 const testTitle = (builder: TDrowserBuilder) => {
-	builder.getTitle().then((t) => {
+  builder.getTitle().then((t) => {
 		try {
 			const tVal = "Todo App"
 			assert.assertEquals(t, tVal)
