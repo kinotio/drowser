@@ -42,7 +42,7 @@ You can define it inside your import_map.json config, like this:
 
 And call it inside deps.ts very easy, like this:
 
-```ts
+```js
 import { assert, driver } from "drowser"
 export { assert, driver }
 ```
@@ -51,7 +51,7 @@ export { assert, driver }
 
 In you test file , you can define a sample test like this:
 
-```ts
+```js
 import { assert , driver } from "./deps.ts"
 import type { TDrowserBuilder } from "drowser"
 
@@ -60,8 +60,8 @@ const testTitle = (builder: TDrowserBuilder) => {
 		try {
 			const tVal = "Todo App"
 			assert.assertEquals(t, tVal)
-		} catch ({ name }) {
-			console.log(name)
+		} catch (err) {
+			console.log(err)
 		}
 	})
 }
@@ -69,8 +69,8 @@ const testTitle = (builder: TDrowserBuilder) => {
 driver({ browserType: "chrome" }).then(({ builder }) => {
 	testTitle(builder)
 	builder.quit()
-}).catch((error) => {
-	console.log(error)
+}).catch((err) => {
+	console.log(err)
 })
 ```
 
