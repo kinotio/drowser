@@ -1,28 +1,22 @@
-import { Browser, Builder, isEmpty, join } from '@deps'
-import type { ThenableWebDriver } from '@deps'
+import { Builder, isEmpty, join } from '@deps'
 import type {
 	TConfigJSON,
 	TData,
 	TDriverParams,
-	TOmitedThenableWebDriver,
+	TDrowserDriverResponse,
+	TDrowserService,
+	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
-
-const driverBrowserType = ['chrome', 'firefox', 'safari', 'edge']
-
-const driverBrowser = {
-	chrome: Browser.CHROME,
-	firefox: Browser.FIREFOX,
-	safari: Browser.SAFARI,
-	edge: Browser.EDGE,
-}
+import { driverBrowser, driverBrowserType } from '@pkg/constants.ts'
+import { generatedLog, generatedPdf } from '@pkg/export.ts'
 
 const driver = async (
 	{ browserType, exportPdf = false, exportLog = true }: TDriverParams,
-): Promise<TOmitedThenableWebDriver> => {
+): Promise<TDrowserDriverResponse> => {
 	console.log({ browserType, exportPdf, exportLog })
 
-	const data: TData = { url: '' }
+	const data: TData = { url: '', results: [], log: [] }
 
 	try {
 		const configPath = join(Deno.cwd(), 'drowser.json')
@@ -56,16 +50,27 @@ const driver = async (
 		)
 	}
 
-	return new Promise<TOmitedThenableWebDriver>((resolve, reject) => {
+	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
-		const driver = new Builder().forBrowser(
+		const builder = new Builder().forBrowser(
 			driverBrowser[browserType],
 		)
-			.build() as ThenableWebDriver
+			.build() as TDrowserThenableWebDriver
 
-		driver.get(data.url).then(() => resolve(driver)).catch((err) => reject(err))
-		// .finally(() => driver.quit()) //TODO: Need to find a solution to handle this internaly
+		const service = {
+			results: [],
+			generateLog: generatedLog,
+			generatePdf: generatedPdf,
+		} as TDrowserService
+
+		builder.get(data.url).then(() => resolve({ builder, service }))
+			.catch((err) => reject(err))
+			// .finally(() => resolve(builder)) //TODO: Need to find a solution to handle this internaly
+			.finally(() => {
+				if (exportLog) generatedLog()
+				if (exportPdf) generatedPdf()
+			})
 	})
 }
 
