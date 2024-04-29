@@ -13,10 +13,11 @@
 A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 ## Features
-  - Easy handling on driver side web browser to isolate each test ✅
-  - Possibility to export test case as PDF 🛠️
-  - Possibility to export test case as Log 🛠️
-  - Usage of AI for analyse the percentage of success and failed test 🛠️
+
+- Easy handling on driver side web browser to isolate each test ✅
+- Possibility to export test case as PDF 🛠️
+- Possibility to export test case as Log 🛠️
+- Usage of AI for analyse the percentage of success and failed test 🛠️
 
 ## Configuration
 
@@ -57,20 +58,20 @@ import type { TDrowserBuilder } from "drowser"
 
 const testTitle = (builder: TDrowserBuilder) => {
   builder.getTitle().then((t) => {
-		try {
-			const tVal = "Todo App"
-			assert.assertEquals(t, tVal)
-		} catch (err) {
-			console.log(err)
-		}
-	})
+  try {
+   const tVal = "Todo App"
+   assert.assertEquals(t, tVal)
+  } catch (err) {
+   console.log(err)
+  }
+ })
 }
 
 driver({ browserType: "chrome" }).then(({ builder }) => {
-	testTitle(builder)
-	builder.quit()
+ testTitle(builder)
+ builder.quit()
 }).catch((err) => {
-	console.log(err)
+ console.log(err)
 })
 ```
 
