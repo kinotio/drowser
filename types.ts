@@ -2,14 +2,14 @@ import type { ThenableWebDriver } from '@pkg/deps.ts'
 
 export type TDriverParams = {
 	browserType: TDriverBrowser
-	exportPdf?: boolean
-	exportLog?: boolean
 }
 
 export type TDriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'
 
 export type TConfigJSON = {
 	url: string
+	exportPdf: boolean
+	exportLog: boolean
 }
 
 export type TData = {

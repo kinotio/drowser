@@ -12,16 +12,16 @@ import { driverBrowser, driverBrowserType } from '@pkg/constants.ts'
 import { generatedLog, generatedPdf } from '@pkg/export.ts'
 
 const driver = async (
-	{ browserType, exportPdf = false, exportLog = true }: TDriverParams,
+	{ browserType }: TDriverParams,
 ): Promise<TDrowserDriverResponse> => {
-	console.log({ browserType, exportPdf, exportLog })
-
 	const data: TData = { url: '', results: [], log: [] }
+	const configPath = join(Deno.cwd(), 'drowser.json')
 
 	try {
-		const configPath = join(Deno.cwd(), 'drowser.json')
 		await Deno.stat(configPath)
-		const { url }: TConfigJSON = JSON.parse(await Deno.readTextFile(configPath))
+		const { url }: TConfigJSON = JSON.parse(
+			await Deno.readTextFile(configPath),
+		)
 
 		if (isEmpty(url) || !isValidHttpUrl({ url })) {
 			throw new Error(
@@ -68,6 +68,10 @@ const driver = async (
 			.catch((err) => reject(err))
 			// .finally(() => builder.quit()) //TODO: Need to find a solution to handle this internaly
 			.finally(() => {
+				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
+					Deno.readTextFileSync(configPath),
+				)
+
 				if (exportLog) generatedLog()
 				if (exportPdf) generatedPdf()
 			})
