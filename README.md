@@ -43,7 +43,7 @@ You can define it inside your import_map.json config, like this:
 
 And call it inside deps.ts very easy, like this:
 
-```ts
+```js
 import { assert, driver } from "drowser"
 export { assert, driver }
 ```
@@ -52,7 +52,7 @@ export { assert, driver }
 
 In you test file , you can define a sample test like this:
 
-```ts
+```js
 import { assert , driver } from "./deps.ts"
 import type { TDrowserBuilder } from "drowser"
 
