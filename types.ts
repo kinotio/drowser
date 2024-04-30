@@ -14,8 +14,7 @@ export type TConfigJSON = {
 
 export type TData = {
 	url: string
-	log?: Array<{ [key: string]: any }>
-	results?: Array<{ [key: string]: any }>
+	results: Array<{ [key: string]: any }>
 }
 
 export type TAssertError = {
@@ -31,11 +30,10 @@ export type TDrowserBuilder = Omit<
 
 export type TDrowserService = {
 	results: Array<{ [key: string]: any }>
-	generatePdf(): Promise<string>
-	generateLog(): Promise<string>
+	generatePdf(): void
+	generateLog(): void
 }
 
 export type TDrowserDriverResponse = {
 	builder: TDrowserBuilder
-	service: TDrowserService
 }

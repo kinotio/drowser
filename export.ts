@@ -1,15 +1,15 @@
 import {} from '@deps'
 
-const generatedLog = (): Promise<string> => {
-	return new Promise<string>((resolve) => {
-		resolve('Generate Log')
-	})
+const exportGeneratedLog = (
+	{ results }: { results: Array<{ [key: string]: any }> },
+): void => {
+	console.log('Generate Log', results)
 }
 
-const generatedPdf = (): Promise<string> => {
-	return new Promise<string>((resolve) => {
-		resolve('Generate Pdf')
-	})
+const exportGeneratedPdf = (
+	{ results }: { results: Array<{ [key: string]: any }> },
+): void => {
+	console.log('Generate PDF', results)
 }
 
-export { generatedLog, generatedPdf }
+export { exportGeneratedLog, exportGeneratedPdf }

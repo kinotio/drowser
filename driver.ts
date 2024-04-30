@@ -3,18 +3,17 @@ import type {
 	TConfigJSON,
 	TData,
 	TDriverParams,
-	TDrowserDriverResponse,
-	TDrowserService,
+	TDrowserBuilder,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
 import { driverBrowser, driverBrowserType } from '@pkg/constants.ts'
-import { generatedLog, generatedPdf } from '@pkg/export.ts'
+import { exportGeneratedLog, exportGeneratedPdf } from '@pkg/export.ts'
 
 const driver = async (
 	{ browserType }: TDriverParams,
-): Promise<TDrowserDriverResponse> => {
-	const data: TData = { url: '', results: [], log: [] }
+): Promise<TDrowserBuilder> => {
+	const data: TData = { url: '', results: [] }
 	const configPath = join(Deno.cwd(), 'drowser.json')
 
 	try {
@@ -50,7 +49,7 @@ const driver = async (
 		)
 	}
 
-	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
+	return new Promise<TDrowserBuilder>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
 		const builder = new Builder().forBrowser(
@@ -58,13 +57,7 @@ const driver = async (
 		)
 			.build() as TDrowserThenableWebDriver
 
-		const service = {
-			results: [],
-			generateLog: generatedLog,
-			generatePdf: generatedPdf,
-		} as TDrowserService
-
-		builder.get(data.url).then(() => resolve({ builder, service }))
+		builder.get(data.url).then(() => resolve(builder))
 			.catch((err) => reject(err))
 			// .finally(() => builder.quit()) //TODO: Need to find a solution to handle this internaly
 			.finally(() => {
@@ -72,8 +65,8 @@ const driver = async (
 					Deno.readTextFileSync(configPath),
 				)
 
-				if (exportLog) generatedLog()
-				if (exportPdf) generatedPdf()
+				if (exportLog) exportGeneratedLog({ results: data.results })
+				if (exportPdf) exportGeneratedPdf({ results: data.results })
 			})
 	})
 }

@@ -12,28 +12,28 @@ const testTitle = (builder: TDrowserBuilder) => {
 	})
 }
 
-driver({ browserType: 'chrome' }).then(({ builder }) => {
+driver({ browserType: 'chrome' }).then((builder) => {
 	testTitle(builder)
 	builder.quit()
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'firefox' }).then(({ builder }) => {
+driver({ browserType: 'firefox' }).then((builder) => {
 	testTitle(builder)
 	builder.quit()
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'safari' }).then(({ builder }) => {
+driver({ browserType: 'safari' }).then((builder) => {
 	testTitle(builder)
 	builder.quit()
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'edge' }).then(({ builder }) => {
+driver({ browserType: 'edge' }).then((builder) => {
 	testTitle(builder)
 	builder.quit()
 }).catch((error) => {
