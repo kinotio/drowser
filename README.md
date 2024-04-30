@@ -67,7 +67,7 @@ const testTitle = (builder: TDrowserBuilder) => {
  })
 }
 
-driver({ browserType: "chrome" }).then(({ builder }) => {
+driver({ browserType: "chrome" }).then((builder) => {
  testTitle(builder)
  builder.quit()
 }).catch((err) => {
