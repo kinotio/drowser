@@ -1,4 +1,4 @@
-import { assert, Builder, isEmpty, join } from '@deps'
+import { assert, Builder, isEmpty, join, Kia } from '@deps'
 import type {
 	TConfigJSON,
 	TData,
@@ -60,10 +60,17 @@ const driver = async (
 
 		const service = { cases: [] }
 
-		console.log('Processing your tests')
+		const kia = new Kia('Processing your tests')
+		kia.start()
 
-		builder.get(data.url).then(() => resolve({ service }))
-			.catch((err) => reject(err))
+		builder.get(data.url).then(() => {
+			kia.succeed('Tests completed')
+			resolve({ service })
+		})
+			.catch((err) => {
+				kia.fail('An error occurred while running tests')
+				reject(err)
+			})
 			.finally(() => {
 				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
 					Deno.readTextFileSync(configPath),
@@ -89,7 +96,7 @@ const driver = async (
 						}
 					}
 
-					if (typeof c === 'function') console.log('function')
+					if (typeof c === 'function') {}
 				})
 
 				builder.quit()

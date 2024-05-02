@@ -8,4 +8,6 @@ import { isEmpty } from 'lodash'
 import * as assert from 'assert'
 import { join } from 'mod'
 
-export { assert, Browser, Builder, isEmpty, join, ThenableWebDriver }
+import Kia from 'kia'
+
+export { assert, Browser, Builder, isEmpty, join, Kia, ThenableWebDriver }
