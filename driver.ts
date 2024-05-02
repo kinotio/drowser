@@ -87,17 +87,20 @@ const driver = async (
 
 							methodPromise.then((v: unknown) => {
 								assert[c.test](v, c.except)
+								data.results.push({ name: c.method, status: 'Passed' })
 								kia.succeed(`Test "${c.method}" is completed`)
 							})
 								.catch(
-									({ name, message }: { name: string; message: unknown }) => {
-										console.log(name)
-										console.log(message)
+									({ name }: { name: string }) => {
+										data.results.push({ name: c.method, status: 'Failed' })
 										kia.fail(
-											`An error occurred while running test "${c.method}"`,
+											`An error occurred while running test "${c.method}", ${name}`,
 										)
 									},
-								)
+								).finally(() => {
+									if (exportLog) exportGeneratedLog({ results: data.results })
+									if (exportPdf) exportGeneratedPdf({ results: data.results })
+								})
 						} else {
 							console.error(`Method ${c.method} not found on builder object.`)
 						}
@@ -107,9 +110,6 @@ const driver = async (
 				})
 
 				builder.quit()
-
-				if (exportLog) exportGeneratedLog({ results: data.results })
-				if (exportPdf) exportGeneratedPdf({ results: data.results })
 			})
 	})
 }

@@ -14,7 +14,10 @@ export type TConfigJSON = {
 
 export type TData = {
 	url: string
-	results: Array<{ [key: string]: any }>
+	results: Array<{
+		name: string
+		status: string
+	}>
 }
 
 export type TAssertError = {
