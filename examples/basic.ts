@@ -2,7 +2,7 @@ import { driver } from '../mod.ts'
 
 const testCases = [
 	{
-		method: 'getTitles',
+		method: 'getTitle',
 		test: 'assertEquals',
 		except: 'Todo App',
 	},
