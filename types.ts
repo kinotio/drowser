@@ -28,12 +28,16 @@ export type TDrowserBuilder = Omit<
 	'get'
 >
 
+export type TDrowserServiceCase = {
+	method: 'getTitle'
+	test: 'assertEquals' | 'assert'
+	except: string | undefined
+}
+
 export type TDrowserService = {
-	results: Array<{ [key: string]: any }>
-	generatePdf(): void
-	generateLog(): void
+	cases: Array<TDrowserServiceCase | (() => void)>
 }
 
 export type TDrowserDriverResponse = {
-	builder: TDrowserBuilder
+	service: TDrowserService
 }
