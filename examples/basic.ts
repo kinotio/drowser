@@ -1,8 +1,8 @@
-import { driver } from '@pkg/lib.ts'
+import { driver } from '../mod.ts'
 
 const testCases = [
 	{
-		method: 'getTitle',
+		method: 'getTitles',
 		test: 'assertEquals',
 		except: 'Todo App',
 	},
