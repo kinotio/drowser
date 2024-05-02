@@ -7,6 +7,7 @@
     "assert": "jsr:@std/assert",
     "lodash": "https://cdn.skypack.dev/lodash-es?dts",
     "mod": "https://deno.land/std@0.223.0/path/mod.ts",
-    "kia": "https://deno.land/x/kia@0.4.1/mod.ts"
+    "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
+    "fs": "https://deno.land/std@0.224.0/fs/mod.ts"
   }
 }
