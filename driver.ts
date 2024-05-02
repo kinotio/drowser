@@ -1,9 +1,10 @@
-import { Builder, isEmpty, join } from '@deps'
+import { assert, Builder, isEmpty, join } from '@deps'
 import type {
 	TConfigJSON,
 	TData,
 	TDriverParams,
-	TDrowserBuilder,
+	TDrowserDriverResponse,
+	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
@@ -12,7 +13,7 @@ import { exportGeneratedLog, exportGeneratedPdf } from '@pkg/export.ts'
 
 const driver = async (
 	{ browserType }: TDriverParams,
-): Promise<TDrowserBuilder> => {
+): Promise<TDrowserDriverResponse> => {
 	const data: TData = { url: '', results: [] }
 	const configPath = join(Deno.cwd(), 'drowser.json')
 
@@ -49,7 +50,7 @@ const driver = async (
 		)
 	}
 
-	return new Promise<TDrowserBuilder>((resolve, reject) => {
+	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
 		const builder = new Builder().forBrowser(
@@ -57,13 +58,41 @@ const driver = async (
 		)
 			.build() as TDrowserThenableWebDriver
 
-		builder.get(data.url).then(() => resolve(builder))
+		const service = { cases: [] }
+
+		console.log('Processing your tests')
+
+		builder.get(data.url).then(() => resolve({ service }))
 			.catch((err) => reject(err))
-			// .finally(() => builder.quit()) //TODO: Need to find a solution to handle this internaly
 			.finally(() => {
 				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
 					Deno.readTextFileSync(configPath),
 				)
+
+				service.cases.forEach((c: TDrowserServiceCase) => {
+					if (typeof c === 'object') {
+						const method =
+							(builder as unknown as Record<string, Function>)[c.method]
+
+						if (typeof method === 'function') {
+							const methodPromise = method.call(builder)
+
+							methodPromise.then((v: unknown) => assert[c.test](v, c.except))
+								.catch(
+									({ name, message }: { name: string; message: unknown }) => {
+										console.log(name)
+										console.log(message)
+									},
+								)
+						} else {
+							console.error(`Method ${c.method} not found on builder object.`)
+						}
+					}
+
+					if (typeof c === 'function') console.log('function')
+				})
+
+				builder.quit()
 
 				if (exportLog) exportGeneratedLog({ results: data.results })
 				if (exportPdf) exportGeneratedPdf({ results: data.results })

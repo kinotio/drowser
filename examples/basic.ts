@@ -1,41 +1,36 @@
-import { assert, driver } from '@pkg/lib.ts'
-import type { TDrowserBuilder } from '@pkg/lib.ts'
+import { driver } from '@pkg/lib.ts'
 
-const testTitle = (builder: TDrowserBuilder) => {
-	builder.getTitle().then((t) => {
-		try {
-			const tVal = 'Todo App'
-			assert.assertEquals(t, tVal)
-		} catch ({ name }) {
-			console.log(name)
-		}
-	})
-}
+const testCases = [
+	{
+		method: 'getTitle',
+		test: 'assertEquals',
+		except: 'Todo App',
+	},
+	() => {
+		console.log('test function')
+	},
+] as any
 
-driver({ browserType: 'chrome' }).then((builder) => {
-	testTitle(builder)
-	builder.quit()
+driver({ browserType: 'chrome' }).then(({ service }) => {
+	service.cases = testCases
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'firefox' }).then((builder) => {
-	testTitle(builder)
-	builder.quit()
+driver({ browserType: 'firefox' }).then(({ service }) => {
+	service.cases = testCases
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'safari' }).then((builder) => {
-	testTitle(builder)
-	builder.quit()
+driver({ browserType: 'safari' }).then(({ service }) => {
+	service.cases = testCases
 }).catch((error) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'edge' }).then((builder) => {
-	testTitle(builder)
-	builder.quit()
+driver({ browserType: 'edge' }).then(({ service }) => {
+	service.cases = testCases
 }).catch((error) => {
 	console.log('Error ->', error)
 })
