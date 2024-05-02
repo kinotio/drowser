@@ -1,8 +1,8 @@
-import { driver } from '@pkg/lib.ts'
+import { driver } from '../mod.ts'
 
 const testCases = [
 	{
-		method: 'getTitle',
+		method: 'getTitles',
 		test: 'assertEquals',
 		except: 'Todo App',
 	},
@@ -17,20 +17,20 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
 	console.log('Error ->', error)
 })
 
-driver({ browserType: 'firefox' }).then(({ service }) => {
-	service.cases = testCases
-}).catch((error) => {
-	console.log('Error ->', error)
-})
+// driver({ browserType: 'firefox' }).then(({ service }) => {
+// 	service.cases = testCases
+// }).catch((error) => {
+// 	console.log('Error ->', error)
+// })
 
-driver({ browserType: 'safari' }).then(({ service }) => {
-	service.cases = testCases
-}).catch((error) => {
-	console.log('Error ->', error)
-})
+// driver({ browserType: 'safari' }).then(({ service }) => {
+// 	service.cases = testCases
+// }).catch((error) => {
+// 	console.log('Error ->', error)
+// })
 
-driver({ browserType: 'edge' }).then(({ service }) => {
-	service.cases = testCases
-}).catch((error) => {
-	console.log('Error ->', error)
-})
+// driver({ browserType: 'edge' }).then(({ service }) => {
+// 	service.cases = testCases
+// }).catch((error) => {
+// 	console.log('Error ->', error)
+// })
