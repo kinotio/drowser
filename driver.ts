@@ -67,10 +67,7 @@ const driver = async (
 		const kia = new Kia('Processing your tests')
 		kia.start()
 
-		builder.get(data.url).then(() => {
-			kia.succeed('Tests completed')
-			resolve({ service })
-		})
+		builder.get(data.url).then(() => resolve({ service }))
 			.catch((err) => {
 				kia.fail('An error occurred while running tests')
 				reject(seleniumExceptions[err.name])
@@ -88,11 +85,17 @@ const driver = async (
 						if (typeof method === 'function') {
 							const methodPromise = method.call(builder)
 
-							methodPromise.then((v: unknown) => assert[c.test](v, c.except))
+							methodPromise.then((v: unknown) => {
+								assert[c.test](v, c.except)
+								kia.succeed(`Test "${c.method}" is completed`)
+							})
 								.catch(
 									({ name, message }: { name: string; message: unknown }) => {
 										console.log(name)
 										console.log(message)
+										kia.fail(
+											`An error occurred while running test "${c.method}"`,
+										)
 									},
 								)
 						} else {
