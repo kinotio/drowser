@@ -8,7 +8,11 @@ import type {
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
-import { driverBrowser, driverBrowserType } from '@pkg/constants.ts'
+import {
+	driverBrowser,
+	driverBrowserType,
+	seleniumExceptions,
+} from '@pkg/constants.ts'
 import { exportGeneratedLog, exportGeneratedPdf } from '@pkg/export.ts'
 
 const driver = async (
@@ -69,7 +73,7 @@ const driver = async (
 		})
 			.catch((err) => {
 				kia.fail('An error occurred while running tests')
-				reject(err)
+				reject(seleniumExceptions[err.name])
 			})
 			.finally(() => {
 				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
