@@ -17,20 +17,20 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
 	console.log('Error ->', error)
 })
 
-// driver({ browserType: 'firefox' }).then(({ service }) => {
-// 	service.cases = testCases
-// }).catch((error) => {
-// 	console.log('Error ->', error)
-// })
+driver({ browserType: 'firefox' }).then(({ service }) => {
+	service.cases = testCases
+}).catch((error) => {
+	console.log('Error ->', error)
+})
 
-// driver({ browserType: 'safari' }).then(({ service }) => {
-// 	service.cases = testCases
-// }).catch((error) => {
-// 	console.log('Error ->', error)
-// })
+driver({ browserType: 'safari' }).then(({ service }) => {
+	service.cases = testCases
+}).catch((error) => {
+	console.log('Error ->', error)
+})
 
-// driver({ browserType: 'edge' }).then(({ service }) => {
-// 	service.cases = testCases
-// }).catch((error) => {
-// 	console.log('Error ->', error)
-// })
+driver({ browserType: 'edge' }).then(({ service }) => {
+	service.cases = testCases
+}).catch((error) => {
+	console.log('Error ->', error)
+})
