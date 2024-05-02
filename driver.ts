@@ -1,4 +1,4 @@
-import { assert, Builder, isEmpty, join } from '@deps'
+import { assert, Builder, isEmpty, join, Kia } from '@deps'
 import type {
 	TConfigJSON,
 	TData,
@@ -8,7 +8,11 @@ import type {
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
-import { driverBrowser, driverBrowserType } from '@pkg/constants.ts'
+import {
+	driverBrowser,
+	driverBrowserType,
+	seleniumExceptions,
+} from '@pkg/constants.ts'
 import { exportGeneratedLog, exportGeneratedPdf } from '@pkg/export.ts'
 
 const driver = async (
@@ -60,10 +64,14 @@ const driver = async (
 
 		const service = { cases: [] }
 
-		console.log('Processing your tests')
+		const kia = new Kia('Processing your tests')
+		kia.start()
 
 		builder.get(data.url).then(() => resolve({ service }))
-			.catch((err) => reject(err))
+			.catch((err) => {
+				kia.fail('An error occurred while running tests')
+				reject(seleniumExceptions[err.name])
+			})
 			.finally(() => {
 				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
 					Deno.readTextFileSync(configPath),
@@ -77,11 +85,17 @@ const driver = async (
 						if (typeof method === 'function') {
 							const methodPromise = method.call(builder)
 
-							methodPromise.then((v: unknown) => assert[c.test](v, c.except))
+							methodPromise.then((v: unknown) => {
+								assert[c.test](v, c.except)
+								kia.succeed(`Test "${c.method}" is completed`)
+							})
 								.catch(
 									({ name, message }: { name: string; message: unknown }) => {
 										console.log(name)
 										console.log(message)
+										kia.fail(
+											`An error occurred while running test "${c.method}"`,
+										)
 									},
 								)
 						} else {
@@ -89,7 +103,7 @@ const driver = async (
 						}
 					}
 
-					if (typeof c === 'function') console.log('function')
+					if (typeof c === 'function') {}
 				})
 
 				builder.quit()
