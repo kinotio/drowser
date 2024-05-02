@@ -5,10 +5,7 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
 		{
 			method: 'getTitle',
 			test: 'assertEquals',
-			except: 'Todo Apps',
-		},
-		() => {
-			console.log('test function')
+			except: 'Todo App',
 		},
 	]
 }).catch((error) => {

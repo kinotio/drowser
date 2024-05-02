@@ -17,6 +17,7 @@ export type TData = {
 	results: Array<{
 		name: string
 		status: string
+		timestamp: Date
 	}>
 }
 
