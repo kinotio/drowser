@@ -15,9 +15,9 @@ A easy way to implement and write Selenium with TypeScript using Deno 🦕
 ## Features
 
 - Easy handling on driver side web browser to isolate each test ✅.
-- Possibility to export test case as PDF 🛠️.
-- Possibility to export test case as Log 🛠️.
-- Usage of AI for analyse the percentage of success and failed test 🛠️.
+- Get a daily log file to check all test process if passed or failed ✅.
+- Possibility to export test case as Log ✅.
+- Usage of AI for analyse the percentage of passed and failed test 🛠️.
 
 ## Configuration
 
