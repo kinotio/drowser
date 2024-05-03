@@ -26,8 +26,8 @@ A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 You need to create a drowser.json in root directory and define some configuration like this:
 
-`url`: The url of platform or website you want to test
-`exportPdf`: Set to `true` if you want to export your test reports inside a pdf file
+- `url`: The url of platform or website you want to test
+- `exportPdf`: Set to `true` if you want to export your test reports inside a pdf file
 
 ```json
 {
@@ -40,6 +40,22 @@ You need to create a drowser.json in root directory and define some configuratio
 
 In your test file , you can define a sample test like this:
 
+List of `method` usable:
+
+- getAllWindowHandles
+- getCapabilities
+- getCurrentUrl
+- getExecutor
+- getPageSource
+- getSession
+- getTitle
+- getWindowHandle
+- getWsUrl
+
+List of `operator` usable, you can find it [here](https://junit.org/junit4/javadoc/4.13/org/junit/Assert.html)
+
+For `except` , add your exceptation string
+
 ```ts
 import { driver } from "https://deno.land/x/drowser@v0.1.0/mod.ts"
 
@@ -47,7 +63,7 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
  service.cases = [
   {
    method: 'getTitle',
-   test: 'assertEquals',
+   operator: 'assertEquals',
    except: 'Todo App',
   },
  ]
