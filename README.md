@@ -25,53 +25,28 @@ You need to create a drowser.json in root directory and define some configuratio
 
 ```json
 {
-  "url": "http://url_of_the_platform_need_to_tested"
+  "url": "http://url_of_the_platform_need_to_tested",
+  "exportPdf": false // set to true if you want to export Pdf file
 }
-```
-
-## Installation
-
-You can define it inside your import_map.json config, like this:
-
-```json
-{
-  "imports": {
-    "drowser": "https://deno.land/x/drowser/lib.ts"
-  }
-}
-```
-
-And call it inside deps.ts very easy, like this:
-
-```js
-import { assert, driver } from "drowser"
-export { assert, driver }
 ```
 
 ## Usage
 
-In you test file , you can define a sample test like this:
+In your test file , you can define a sample test like this:
 
-```js
-import { assert , driver } from "./deps.ts"
-import type { TDrowserBuilder } from "drowser"
+```ts
+import { driver } from "https://deno.land/x/drowser@v0.1.0/mod.ts"
 
-const testTitle = (builder: TDrowserBuilder) => {
-  builder.getTitle().then((t) => {
-  try {
-   const tVal = "Todo App"
-   assert.assertEquals(t, tVal)
-  } catch (err) {
-   console.log(err)
-  }
- })
-}
-
-driver({ browserType: "chrome" }).then((builder) => {
- testTitle(builder)
- builder.quit()
-}).catch((err) => {
- console.log(err)
+driver({ browserType: 'chrome' }).then(({ service }) => {
+ service.cases = [
+  {
+   method: 'getTitle',
+   test: 'assertEquals',
+   except: 'Todo App',
+  },
+ ]
+}).catch((error) => {
+ console.log(error)
 })
 ```
 
