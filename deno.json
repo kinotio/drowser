@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "importMap": "./import_map.json",
   "tasks": {
     "run:example:basic": "deno run -A examples/basic.ts",
