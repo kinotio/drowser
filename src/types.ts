@@ -1,5 +1,5 @@
-import type { ThenableWebDriver } from '@pkg/deps.ts'
 import { assert } from '@deps'
+import type { ThenableWebDriver } from '@deps'
 
 type AssertFunction = keyof typeof assert
 
@@ -52,4 +52,8 @@ export type TAssertFunction = (
 
 export type TAssertError = {
 	name: string
+}
+
+export type TIsValidHttpUrlParams = {
+	url: string
 }

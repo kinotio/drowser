@@ -1,6 +1,6 @@
 {
   "imports": {
-    "@pkg/": "./",
+    "@pkg/": "./src/",
     "@deps": "./deps.ts",
 
     "selenium-webdriver": "npm:selenium-webdriver",
