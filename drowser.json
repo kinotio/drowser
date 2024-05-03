@@ -1,5 +1,4 @@
 {
   "url": "http://localhost:3000",
-  "exportPdf": false,
-  "exportLog": true
+  "exportPdf": false
 }

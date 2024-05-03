@@ -12,7 +12,6 @@ export type TDriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'
 export type TConfigJSON = {
 	url: string
 	exportPdf: boolean
-	exportLog: boolean
 }
 
 export type TData = {
