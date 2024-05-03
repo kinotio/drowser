@@ -23,10 +23,13 @@ A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 You need to create a drowser.json in root directory and define some configuration like this:
 
+`url`: The url of platform or website you want to test
+`exportPdf`: Set to `true` if you want to export your test reports inside a pdf file
+
 ```json
 {
   "url": "http://url_of_the_platform_need_to_tested",
-  "exportPdf": false // set to true if you want to export Pdf file
+  "exportPdf": false
 }
 ```
 
