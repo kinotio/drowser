@@ -12,6 +12,9 @@
 
 A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
+> Still working on managing custom function test using selenium webdriver builder ℹ️
+> But for now we have already implemented test using object type like you can see in the usage section 🚀
+
 ## Features
 
 - Easy handling on driver side web browser to isolate each test ✅.
