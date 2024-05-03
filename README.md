@@ -59,7 +59,7 @@ List of `operator` usable, you can find it [here](https://junit.org/junit4/javad
 For `except` , add your exceptation string
 
 ```ts
-import { driver } from "https://deno.land/x/drowser@v0.1.0/mod.ts"
+import { driver } from "https://deno.land/x/drowser@v0.1.1/mod.ts"
 
 driver({ browserType: 'chrome' }).then(({ service }) => {
  service.cases = [
