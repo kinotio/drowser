@@ -74,7 +74,7 @@ const driver = async (
 				reject(seleniumExceptions[err.name])
 			})
 			.finally(() => {
-				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
+				const { exportPdf }: TConfigJSON = JSON.parse(
 					Deno.readTextFileSync(configPath),
 				)
 				const methodPromises: Promise<void>[] = []
@@ -118,8 +118,8 @@ const driver = async (
 
 				Promise.all(methodPromises)
 					.then(() => {
-						if (exportLog) exportGeneratedLog({ results: data.results })
 						if (exportPdf) exportGeneratedPdf({ results: data.results })
+						exportGeneratedLog({ results: data.results })
 					})
 					.catch((error) => {
 						console.error('An error occurred while processing promises:', error)
