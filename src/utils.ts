@@ -1,6 +1,4 @@
-type TIsValidHttpUrlParams = {
-	url: string
-}
+import { TIsValidHttpUrlParams } from '@pkg/types.ts'
 
 const isValidHttpUrl = ({ url }: TIsValidHttpUrlParams): boolean => {
 	try {
