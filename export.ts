@@ -1,5 +1,5 @@
-import { existsSync, join } from '@deps'
-import { generateLogFileName } from '@pkg/utils.ts'
+import { existsSync, join, PDFDocument } from '@deps'
+import { generateFileName } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
 	{ results }: { results: Array<{ [key: string]: any }> },
@@ -9,7 +9,7 @@ const exportGeneratedLog = (
 
 	if (!asDir) Deno.mkdirSync(dirPath, { recursive: true })
 
-	const logFilename = generateLogFileName('drowser_log')
+	const logFilename = generateFileName('drowser_log', 'log')
 	const logFilePath = `${dirPath}/${logFilename}`
 
 	Deno.create(logFilePath).then(() => {
@@ -28,7 +28,24 @@ const exportGeneratedPdf = (
 
 	if (!asDir) Deno.mkdirSync(dirPath, { recursive: true })
 
-	console.log(results)
+	const pdfFilename = generateFileName('drowser_pdf', 'pdf')
+	const pdfFilePath = `${dirPath}/${pdfFilename}`
+
+	PDFDocument.create().then((doc) => {
+		const page = doc.addPage()
+
+		results.forEach((r) => {
+			page.drawText(`[${r.timestamp}] - Test with ${r.name} is ${r.status}`, {
+				x: 100,
+				y: 700,
+				size: 12,
+			})
+		})
+
+		doc.save().then((bytes) => {
+			Deno.create(pdfFilePath).then(() => Deno.writeFile(pdfFilePath, bytes))
+		})
+	})
 }
 
 export { exportGeneratedLog, exportGeneratedPdf }
