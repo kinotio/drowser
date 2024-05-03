@@ -1,4 +1,4 @@
-import { existsSync, join, PDFDocument } from '@deps'
+import { existsSync, join, jsPDF } from '@deps'
 import { generateFileName } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
@@ -12,12 +12,14 @@ const exportGeneratedLog = (
 	const logFilename = generateFileName('drowser_log', 'log')
 	const logFilePath = `${dirPath}/${logFilename}`
 
-	Deno.create(logFilePath).then(() => {
-		results.forEach((r) => {
-			const logRow = `[${r.timestamp}] - Test with ${r.name} is ${r.status}`
-			Deno.writeTextFile(logFilePath, `${logRow}\n`, { append: true })
+	if (Array.isArray(results) && results.length !== 0) {
+		Deno.create(logFilePath).then(() => {
+			results.forEach((r) => {
+				const logRow = `[${r.timestamp}] - Test with ${r.name} is ${r.status}`
+				Deno.writeTextFile(logFilePath, `${logRow}\n`, { append: true })
+			})
 		})
-	})
+	}
 }
 
 const exportGeneratedPdf = (
@@ -31,21 +33,27 @@ const exportGeneratedPdf = (
 	const pdfFilename = generateFileName('drowser_pdf', 'pdf')
 	const pdfFilePath = `${dirPath}/${pdfFilename}`
 
-	PDFDocument.create().then((doc) => {
-		const page = doc.addPage()
+	if (Array.isArray(results) && results.length > 0) {
+		const pdf = new jsPDF()
+		const pdfCopy = Object.assign({}, pdf) as any
 
-		results.forEach((r) => {
-			page.drawText(`[${r.timestamp}] - Test with ${r.name} is ${r.status}`, {
-				x: 100,
-				y: 700,
-				size: 12,
-			})
+		const head = [['ID', 'NAME', 'STATUS', 'TIMESTAMP']]
+
+		const data = results.map((r, i) => [i + 1, r.name, r.status, r.timestamp])
+
+		pdf.setFontSize(18)
+		pdf.text('Drowser Reports', 11, 8)
+		pdf.setFontSize(11)
+		pdf.setTextColor(100)
+
+		pdfCopy.autoTable({
+			head,
+			body: data,
+			theme: 'grid',
 		})
 
-		doc.save().then((bytes) => {
-			Deno.create(pdfFilePath).then(() => Deno.writeFile(pdfFilePath, bytes))
-		})
-	})
+		pdf.save(pdfFilePath)
+	}
 }
 
 export { exportGeneratedLog, exportGeneratedPdf }
