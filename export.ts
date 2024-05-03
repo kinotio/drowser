@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { existsSync, join, jsPDF } from '@deps'
+=======
+import { existsSync, join, PDFDocument } from '@deps'
+>>>>>>> c5587cb1fa047c4911b4f5bee100f9cc70710a6a
 import { generateFileName } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
