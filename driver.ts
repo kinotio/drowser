@@ -76,6 +76,7 @@ const driver = async (
 				const { exportLog, exportPdf }: TConfigJSON = JSON.parse(
 					Deno.readTextFileSync(configPath),
 				)
+				const methodPromises: Promise<void>[] = []
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
 					if (typeof c === 'object') {
@@ -87,17 +88,21 @@ const driver = async (
 
 							methodPromise.then((v: unknown) => {
 								assert[c.test](v, c.except)
-								kia.succeed(`Test "${c.method}" is completed`)
+								data.results.push({
+									name: c.method,
+									status: 'Passed',
+									timestamp: new Date(),
+								})
 							})
-								.catch(
-									({ name, message }: { name: string; message: unknown }) => {
-										console.log(name)
-										console.log(message)
-										kia.fail(
-											`An error occurred while running test "${c.method}"`,
-										)
-									},
-								)
+								.catch(() => {
+									data.results.push({
+										name: c.method,
+										status: 'Failed',
+										timestamp: new Date(),
+									})
+								})
+
+							methodPromises.push(methodPromise)
 						} else {
 							console.error(`Method ${c.method} not found on builder object.`)
 						}
@@ -106,10 +111,17 @@ const driver = async (
 					if (typeof c === 'function') {}
 				})
 
-				builder.quit()
-
-				if (exportLog) exportGeneratedLog({ results: data.results })
-				if (exportPdf) exportGeneratedPdf({ results: data.results })
+				Promise.all(methodPromises)
+					.then(() => {
+						if (exportLog) exportGeneratedLog({ results: data.results })
+						if (exportPdf) exportGeneratedPdf({ results: data.results })
+					})
+					.catch((error) => {
+						console.error('An error occurred while processing promises:', error)
+					}).finally(() => {
+						kia.succeed('All tests completed')
+						builder.quit()
+					})
 			})
 	})
 }

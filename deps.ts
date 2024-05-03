@@ -7,7 +7,17 @@ import { isEmpty } from 'lodash'
 
 import * as assert from 'assert'
 import { join } from 'mod'
+import { existsSync } from 'fs'
 
 import Kia from 'kia'
 
-export { assert, Browser, Builder, isEmpty, join, Kia, ThenableWebDriver }
+export {
+	assert,
+	Browser,
+	Builder,
+	existsSync,
+	isEmpty,
+	join,
+	Kia,
+	ThenableWebDriver,
+}
