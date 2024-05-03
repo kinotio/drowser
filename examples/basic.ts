@@ -9,5 +9,5 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
 		},
 	]
 }).catch((error) => {
-	console.log('Error ->', error)
+	console.log(error)
 })

@@ -1,7 +1,9 @@
 import { assert } from '@deps'
 import type { ThenableWebDriver } from '@deps'
 
-type AssertFunction = keyof typeof assert
+type MethodsStartingWith<T, Prefix extends string> = {
+	[K in keyof T as K extends `${Prefix}${string}` ? K : never]: T[K]
+}
 
 export type TDriverParams = {
 	browserType: TDriverBrowser
@@ -31,9 +33,9 @@ export type TDrowserBuilder = Omit<
 >
 
 export type TDrowserServiceCase = {
-	method: 'getTitle'
-	test: AssertFunction
-	except: string | undefined
+	method: keyof MethodsStartingWith<TDrowserBuilder, 'get'>
+	test: keyof typeof assert
+	except: unknown
 }
 
 export type TDrowserService = {
