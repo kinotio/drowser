@@ -4,7 +4,7 @@ driver({ browserType: 'chrome' }).then(({ service }) => {
 	service.cases = [
 		{
 			method: 'getTitle',
-			test: 'assert',
+			test: 'assertEquals',
 			except: 'Todo App',
 		},
 	]

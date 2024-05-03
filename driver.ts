@@ -1,5 +1,6 @@
 import { assert, Builder, isEmpty, join, Kia } from '@deps'
 import type {
+	TAssertFunction,
 	TConfigJSON,
 	TData,
 	TDriverParams,
@@ -77,6 +78,15 @@ const driver = async (
 					Deno.readTextFileSync(configPath),
 				)
 				const methodPromises: Promise<void>[] = []
+				const result = (
+					{ name, status }: { name: string; status: 'Passed' | 'Failed' },
+				) => {
+					return {
+						name,
+						status,
+						timestamp: new Date(),
+					}
+				}
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
 					if (typeof c === 'object') {
@@ -87,19 +97,14 @@ const driver = async (
 							const methodPromise = method.call(builder)
 
 							methodPromise.then((v: unknown) => {
-								assert[c.test](v, c.except)
-								data.results.push({
-									name: c.method,
-									status: 'Passed',
-									timestamp: new Date(),
-								})
+								const assertFunction = assert[c.test] as TAssertFunction
+								assertFunction(v, c.except)
+								data.results.push(result({ name: c.method, status: 'Passed' }))
 							})
 								.catch(() => {
-									data.results.push({
-										name: c.method,
-										status: 'Failed',
-										timestamp: new Date(),
-									})
+									data.results.push(
+										result({ name: c.method, status: 'Failed' }),
+									)
 								})
 
 							methodPromises.push(methodPromise)
