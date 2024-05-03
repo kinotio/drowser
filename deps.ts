@@ -4,6 +4,7 @@ import type { ThenableWebDriver } from 'selenium-webdriver'
 
 // @deno-types="https://cdn.skypack.dev/@types/lodash?dts"
 import { isEmpty } from 'lodash'
+import { PDFDocument } from 'pdf-lib'
 
 import * as assert from 'assert'
 import { join } from 'mod'
@@ -19,5 +20,6 @@ export {
 	isEmpty,
 	join,
 	Kia,
+	PDFDocument,
 	ThenableWebDriver,
 }

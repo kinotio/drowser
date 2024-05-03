@@ -22,9 +22,9 @@ const getTimestamp = (): string => {
 	return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`
 }
 
-const generateLogFileName = (prefix: string): string => {
+const generateFileName = (prefix: string, ext: 'log' | 'pdf'): string => {
 	const timestamp = getTimestamp()
-	return `${prefix}_${timestamp}.log`
+	return `${prefix}_${timestamp}.${ext}`
 }
 
-export { generateLogFileName, getTimestamp, isValidHttpUrl }
+export { generateFileName, getTimestamp, isValidHttpUrl }

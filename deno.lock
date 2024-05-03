@@ -133,13 +133,27 @@
     }
   },
   "redirects": {
+    "https://cdn.skypack.dev/-/@pdf-lib/standard-fonts@v1.0.0-Z8Dxw2SAoP39vRoTIKF1/dist=es2019,mode=types/index.d.ts": "https://cdn.skypack.dev/-/@pdf-lib/standard-fonts@v1.0.0-Z8Dxw2SAoP39vRoTIKF1/dist=es2019,mode=types/lib/index.d.ts",
     "https://cdn.skypack.dev/-/@types/lodash@v4.17.0-E9jfYc9YdGJLQAvcVdMT/dist=es2019,mode=types/index.js": "https://cdn.skypack.dev/-/@types/lodash@v4.17.0-E9jfYc9YdGJLQAvcVdMT/dist=es2019,mode=types/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/form.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/form/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/image.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/image/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/text.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/api/text/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core/acroform.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core/acroform/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core/annotation.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/core/annotation/index.d.ts",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/utils.d.ts": "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=types/cjs/utils/index.d.ts",
     "https://deno.land/std/fs/mod.ts": "https://deno.land/std@0.224.0/fs/mod.ts",
     "https://deno.land/x/lodash/lodash.js": "https://deno.land/x/lodash@4.17.19/lodash.js"
   },
   "remote": {
+    "https://cdn.skypack.dev/-/@pdf-lib/standard-fonts@v1.0.0-Z8Dxw2SAoP39vRoTIKF1/dist=es2019,mode=imports/optimized/@pdf-lib/standard-fonts.js": "7e7233fe50eff7cdacd5dfe148b2e8793ef2c0aacd1b09d09d74fa71ea588eac",
+    "https://cdn.skypack.dev/-/@pdf-lib/upng@v1.0.1-cDyYONcMEAs6JipZyc8F/dist=es2019,mode=imports/optimized/@pdf-lib/upng.js": "c1fa7f102bc8ece5a18e22f27a18929143c4bba9735b24ea23b0b0d8eaa8cd53",
     "https://cdn.skypack.dev/-/lodash-es@v4.17.21-rDGl8YjBUjcrrAbjNrmo/dist=es2019,mode=imports/optimized/lodash-es.js": "4a1b35d34b5e0d3ae68aa46ddaabb9700ccecb75b830974db7c46a271f10daa8",
+    "https://cdn.skypack.dev/-/pako@v1.0.11-HN3j6r6YXxSYMQQ5YY76/dist=es2019,mode=imports/optimized/pako.js": "cb928ba393bdb8c8b9b6509a68975a00e43780ed2424bf0c6e020890dc546e4b",
+    "https://cdn.skypack.dev/-/pdf-lib@v1.17.1-P8YmSI9gov9vMnrV7v2f/dist=es2019,mode=imports/optimized/pdf-lib.js": "ce55a997148b41a520719255d57af560fd269685241031d2502f0c7583d690b2",
+    "https://cdn.skypack.dev/-/tslib@v1.14.1-mWTe8wftGbG1xYC8gPyw/dist=es2019,mode=imports/optimized/tslib.js": "bde9e42ab1dee8764c8fef53a8165ab516af507bd5a6e120aae6d0922925ba74",
     "https://cdn.skypack.dev/lodash-es?dts": "7dc1d11c01e46bf442774791267f7ca93f6cc204451ac648f2560b0cd6c91524",
+    "https://cdn.skypack.dev/pdf-lib@^1.11.1?dts": "11ccb0b2660b159faec9facfc77e47ad78e1d1ee41805f007b4dd11b62095e05",
     "https://deno.land/std@0.122.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
     "https://deno.land/std@0.122.0/bytes/bytes_list.ts": "3bff6a09c72b2e0b1e92e29bd3b135053894196cca07a2bba842901073efe5cb",
     "https://deno.land/std@0.122.0/bytes/equals.ts": "69f55fdbd45c71f920c1a621e6c0865dc780cd8ae34e0f5e55a9497b70c31c1b",
