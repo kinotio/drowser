@@ -1,4 +1,7 @@
 import type { ThenableWebDriver } from '@pkg/deps.ts'
+import { assert } from '@deps'
+
+type AssertFunction = keyof typeof assert
 
 export type TDriverParams = {
 	browserType: TDriverBrowser
@@ -34,7 +37,7 @@ export type TDrowserBuilder = Omit<
 
 export type TDrowserServiceCase = {
 	method: 'getTitle'
-	test: 'assertEquals' | 'assert'
+	test: AssertFunction
 	except: string | undefined
 }
 
