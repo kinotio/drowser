@@ -97,7 +97,7 @@ const driver = async (
 							const methodPromise = method.call(builder)
 
 							methodPromise.then((v: unknown) => {
-								const assertFunction = assert[c.test] as TAssertFunction
+								const assertFunction = assert[c.operator] as TAssertFunction
 								assertFunction(v, c.except)
 								data.results.push(result({ name: c.method, status: 'Passed' }))
 							})

@@ -34,7 +34,7 @@ export type TDrowserBuilder = Omit<
 
 export type TDrowserServiceCase = {
 	method: keyof MethodsStartingWith<TDrowserBuilder, 'get'>
-	test: keyof typeof assert
+	operator: keyof typeof assert
 	except: unknown
 }
 
