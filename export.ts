@@ -5,20 +5,28 @@ const exportGeneratedLog = (
 	{ results }: { results: Array<{ [key: string]: any }> },
 ): void => {
 	const dirPath = join(Deno.cwd(), 'drowser/logs')
-	const asDir = existsSync(dirPath)
+	const hasDir = existsSync(dirPath)
 
-	if (!asDir) Deno.mkdirSync(dirPath, { recursive: true })
+	if (!hasDir) Deno.mkdirSync(dirPath, { recursive: true })
 
 	const logFilename = generateFileName('drowser_log', 'log')
 	const logFilePath = `${dirPath}/${logFilename}`
 
 	if (Array.isArray(results) && results.length !== 0) {
-		Deno.create(logFilePath).then(() => {
+		const logFileExists = existsSync(logFilePath)
+
+		const writeResult = () =>
 			results.forEach((r) => {
 				const logRow = `[${r.timestamp}] - Test with ${r.name} is ${r.status}`
 				Deno.writeTextFile(logFilePath, `${logRow}\n`, { append: true })
 			})
-		})
+
+		if (logFileExists) {
+			writeResult()
+			return
+		}
+
+		Deno.create(logFilePath).then(() => writeResult())
 	}
 }
 
@@ -36,21 +44,16 @@ const exportGeneratedPdf = (
 	if (Array.isArray(results) && results.length > 0) {
 		const pdf = new jsPDF()
 		const pdfCopy = Object.assign({}, pdf) as any
-
 		const head = [['ID', 'NAME', 'STATUS', 'TIMESTAMP']]
-
-		const data = results.map((r, i) => [i + 1, r.name, r.status, r.timestamp])
+		const body = results.map((r, i) => [i + 1, r.name, r.status, r.timestamp])
+		const tableOpts = { head, body, theme: 'grid' }
 
 		pdf.setFontSize(18)
 		pdf.text('Drowser Reports', 11, 8)
 		pdf.setFontSize(11)
 		pdf.setTextColor(100)
 
-		pdfCopy.autoTable({
-			head,
-			body: data,
-			theme: 'grid',
-		})
+		pdfCopy.autoTable(tableOpts)
 
 		pdf.save(pdfFilePath)
 	}
