@@ -16,13 +16,17 @@ export type TConfigJSON = {
 	exportPdf: boolean
 }
 
+export type TDataResult = {
+	name: string
+	actual: unknown
+	exceptation: unknown
+	status: 'passed' | 'failed'
+	timestamp?: Date
+}
+
 export type TData = {
 	url: string
-	results: Array<{
-		name: string
-		status: string
-		timestamp: Date
-	}>
+	results: Array<TDataResult>
 }
 
 export type TDrowserThenableWebDriver = ThenableWebDriver

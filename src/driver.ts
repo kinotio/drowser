@@ -3,6 +3,7 @@ import type {
 	TAssertFunction,
 	TConfigJSON,
 	TData,
+	TDataResult,
 	TDriverParams,
 	TDrowserDriverResponse,
 	TDrowserServiceCase,
@@ -79,10 +80,12 @@ const driver = async (
 				)
 				const methodPromises: Promise<void>[] = []
 				const result = (
-					{ name, status }: { name: string; status: 'Passed' | 'Failed' },
+					{ name, actual, exceptation, status }: TDataResult,
 				) => {
 					return {
 						name,
+						actual,
+						exceptation,
 						status,
 						timestamp: new Date(),
 					}
@@ -95,15 +98,29 @@ const driver = async (
 
 						if (typeof method === 'function') {
 							const methodPromise = method.call(builder)
+							let actualValue: unknown = null
 
 							methodPromise.then((v: unknown) => {
 								const assertFunction = assert[c.operator] as TAssertFunction
-								assertFunction(v, c.except)
-								data.results.push(result({ name: c.method, status: 'Passed' }))
+								actualValue = v
+								assertFunction(actualValue, c.except)
+								data.results.push(
+									result({
+										name: c.method,
+										actual: actualValue,
+										exceptation: c.except,
+										status: 'passed',
+									}),
+								)
 							})
 								.catch(() => {
 									data.results.push(
-										result({ name: c.method, status: 'Failed' }),
+										result({
+											name: c.method,
+											actual: actualValue,
+											exceptation: c.except,
+											status: 'failed',
+										}),
 									)
 								})
 
