@@ -13,6 +13,7 @@ import { join } from 'mod'
 import { existsSync } from 'fs'
 import Kia from 'kia'
 import { createWriteStream } from 'node-fs'
+import OpenAI from 'openai'
 
 export {
 	assert,
@@ -24,5 +25,6 @@ export {
 	join,
 	jsPDF,
 	Kia,
+	OpenAI,
 	ThenableWebDriver,
 }
