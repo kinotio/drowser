@@ -1,6 +1,6 @@
 import { driver } from '../mod.ts'
 
-driver({ browserType: 'chrome' }).then(({ service }) => {
+driver({ browser: 'chrome' }).then(({ service }) => {
 	service.cases = [
 		{
 			method: 'getTitle',

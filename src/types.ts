@@ -6,7 +6,7 @@ type MethodsStartingWith<T, Prefix extends string> = {
 }
 
 export type TDriverParams = {
-	browserType: TDriverBrowser
+	browser: TDriverBrowser
 }
 
 export type TDriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'

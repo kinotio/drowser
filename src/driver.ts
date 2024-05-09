@@ -22,7 +22,7 @@ import {
 } from '@pkg/export.ts'
 
 const driver = async (
-	{ browserType }: TDriverParams,
+	{ browser }: TDriverParams,
 ): Promise<TDrowserDriverResponse> => {
 	const data: TData = { url: '', results: [] }
 	const configPath = join(Deno.cwd(), 'drowser.json')
@@ -54,7 +54,7 @@ const driver = async (
 		}
 	}
 
-	if (isEmpty(browserType) || !driverBrowserType.includes(browserType)) {
+	if (isEmpty(browser) || !driverBrowserType.includes(browser)) {
 		throw new Error(
 			'An error occurred, please provide a valid browser driver',
 		)
@@ -64,7 +64,7 @@ const driver = async (
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
 		const builder = new Builder().forBrowser(
-			driverBrowser[browserType],
+			driverBrowser[browser],
 		)
 			.build() as TDrowserThenableWebDriver
 
