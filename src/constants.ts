@@ -1,8 +1,8 @@
 import { Browser } from '@deps'
 
-const driverBrowserType: Array<string> = ['chrome', 'firefox', 'safari', 'edge']
+const driverBrowserList: Array<string> = ['chrome', 'firefox', 'safari', 'edge']
 
-const driverBrowser: Record<string, string> = {
+const driverBrowsers: Record<string, string> = {
 	chrome: Browser.CHROME,
 	firefox: Browser.FIREFOX,
 	safari: Browser.SAFARI,
@@ -21,4 +21,4 @@ const seleniumExceptions: Record<string, string> = {
 		'The referenced element is present in the DOM but is not visible.',
 }
 
-export { driverBrowser, driverBrowserType, seleniumExceptions }
+export { driverBrowserList, driverBrowsers, seleniumExceptions }

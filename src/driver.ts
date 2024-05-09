@@ -11,8 +11,8 @@ import type {
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
 import {
-	driverBrowser,
-	driverBrowserType,
+	driverBrowserList,
+	driverBrowsers,
 	seleniumExceptions,
 } from '@pkg/constants.ts'
 import {
@@ -54,7 +54,7 @@ const driver = async (
 		}
 	}
 
-	if (isEmpty(browser) || !driverBrowserType.includes(browser)) {
+	if (isEmpty(browser) || !driverBrowserList.includes(browser)) {
 		throw new Error(
 			'An error occurred, please provide a valid browser driver',
 		)
@@ -64,7 +64,7 @@ const driver = async (
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
 		const builder = new Builder().forBrowser(
-			driverBrowser[browser],
+			driverBrowsers[browser],
 		)
 			.build() as TDrowserThenableWebDriver
 
