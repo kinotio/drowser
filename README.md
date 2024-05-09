@@ -61,7 +61,7 @@ For `except` , add your exceptation string
 ```ts
 import { driver } from "https://deno.land/x/drowser@v0.1.1/mod.ts"
 
-driver({ browserType: 'chrome' }).then(({ service }) => {
+driver({ browser: 'chrome' }).then(({ service }) => {
  service.cases = [
   {
    method: 'getTitle',
