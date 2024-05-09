@@ -63,3 +63,14 @@ export type TAssertError = {
 export type TIsValidHttpUrlParams = {
 	url: string
 }
+
+export type TJSON = {
+	drowser: {
+		cases: [
+			{
+				time: string
+				cases: Array<TDataResult>
+			},
+		]
+	}
+}
