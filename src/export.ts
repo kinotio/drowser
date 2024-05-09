@@ -1,6 +1,13 @@
-import { existsSync, join, jsPDF } from '@deps'
+import {
+	existsSync,
+	join,
+	jsPDF,
+	readJsonSync,
+	writeJson,
+	writeJsonSync,
+} from '@deps'
 import { generateFileName } from '@pkg/utils.ts'
-import { TDataResult } from '@pkg/types.ts'
+import { TDataResult, TJSON } from '@pkg/types.ts'
 
 const exportGeneratedLog = (
 	{ results }: { results: Array<TDataResult> },
@@ -71,4 +78,37 @@ const exportGeneratedPdf = (
 	}
 }
 
-export { exportGeneratedLog, exportGeneratedPdf }
+const exportJSONReport = (
+	{ results }: { results: Array<TDataResult> },
+): void => {
+	const filePath = join(Deno.cwd(), 'drowser-reports.json')
+	const hasFile = existsSync(filePath)
+
+	if (!hasFile) {
+		Deno.createSync(filePath)
+		writeJsonSync(filePath, {
+			drowser: {
+				cases: [],
+			},
+		}, { spaces: 2 })
+	}
+
+	if (Array.isArray(results) && results.length > 0) {
+		const jsonData = readJsonSync(filePath) as TJSON
+
+		jsonData.drowser.cases.push({
+			time: new Date().toISOString(),
+			cases: results,
+		})
+
+		writeJson(filePath, jsonData, { spaces: 2 })
+			.then(() => {
+				console.log('JSON report exported successfully.')
+			})
+			.catch((error) => {
+				console.error('Error exporting JSON report:', error)
+			})
+	}
+}
+
+export { exportGeneratedLog, exportGeneratedPdf, exportJSONReport }

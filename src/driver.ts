@@ -15,7 +15,11 @@ import {
 	driverBrowserType,
 	seleniumExceptions,
 } from '@pkg/constants.ts'
-import { exportGeneratedLog, exportGeneratedPdf } from '@pkg/export.ts'
+import {
+	exportGeneratedLog,
+	exportGeneratedPdf,
+	exportJSONReport,
+} from '@pkg/export.ts'
 
 const driver = async (
 	{ browserType }: TDriverParams,
@@ -137,6 +141,7 @@ const driver = async (
 					.then(() => {
 						if (exportPdf) exportGeneratedPdf({ results: data.results })
 						exportGeneratedLog({ results: data.results })
+						exportJSONReport({ results: data.results })
 					})
 					.catch((error) => {
 						console.error('An error occurred while processing promises:', error)

@@ -14,6 +14,7 @@ import { existsSync } from 'fs'
 import Kia from 'kia'
 import { createWriteStream } from 'node-fs'
 import OpenAI from 'openai'
+import { readJson, readJsonSync, writeJson, writeJsonSync } from 'jsonfile'
 
 export {
 	assert,
@@ -26,5 +27,9 @@ export {
 	jsPDF,
 	Kia,
 	OpenAI,
+	readJson,
+	readJsonSync,
 	ThenableWebDriver,
+	writeJson,
+	writeJsonSync,
 }

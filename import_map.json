@@ -15,6 +15,7 @@
     "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
     "fs": "https://deno.land/std@0.224.0/fs/mod.ts",
     "node-fs": "https://deno.land/std@0.139.0/node/fs.ts",
-    "openai": "https://deno.land/x/openai@v4.41.0/mod.ts"
+    "openai": "https://deno.land/x/openai@v4.41.0/mod.ts",
+    "jsonfile": "https://deno.land/x/jsonfile@1.0.0/mod.ts"
   }
 }
