@@ -102,9 +102,6 @@ const exportJSONReport = (
 		})
 
 		writeJson(filePath, jsonData, { spaces: 2 })
-			.then(() => {
-				console.log('JSON report exported successfully.')
-			})
 			.catch((error) => {
 				console.error('Error exporting JSON report:', error)
 			})

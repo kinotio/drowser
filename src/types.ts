@@ -20,7 +20,7 @@ export type TDataResult = {
 	name: string
 	actual: unknown
 	exceptation: unknown
-	status: 'passed' | 'failed'
+	status: string
 	timestamp?: Date
 }
 
