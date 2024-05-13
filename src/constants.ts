@@ -21,4 +21,9 @@ const seleniumExceptions: Record<string, string> = {
 		'The referenced element is present in the DOM but is not visible.',
 }
 
-export { driverBrowserList, driverBrowsers, seleniumExceptions }
+const caseStatus: Record<string, string> = {
+	ok: 'ok',
+	ko: 'ko',
+}
+
+export { caseStatus, driverBrowserList, driverBrowsers, seleniumExceptions }

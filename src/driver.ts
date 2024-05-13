@@ -11,6 +11,7 @@ import type {
 } from '@pkg/types.ts'
 import { isValidHttpUrl } from '@pkg/utils.ts'
 import {
+	caseStatus,
 	driverBrowserList,
 	driverBrowsers,
 	seleniumExceptions,
@@ -113,7 +114,7 @@ const driver = async (
 										name: c.method,
 										actual: actualValue,
 										exceptation: c.except,
-										status: 'passed',
+										status: caseStatus.ok,
 									}),
 								)
 							})
@@ -123,7 +124,7 @@ const driver = async (
 											name: c.method,
 											actual: actualValue,
 											exceptation: c.except,
-											status: 'failed',
+											status: caseStatus.ko,
 										}),
 									)
 								})
