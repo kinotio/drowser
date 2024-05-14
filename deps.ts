@@ -15,6 +15,7 @@ import Kia from 'kia'
 import { createWriteStream } from 'node-fs'
 import OpenAI from 'openai'
 import { readJson, readJsonSync, writeJson, writeJsonSync } from 'jsonfile'
+import { nanoid } from 'nanoid'
 
 export {
 	assert,
@@ -26,6 +27,7 @@ export {
 	join,
 	jsPDF,
 	Kia,
+	nanoid,
 	OpenAI,
 	readJson,
 	readJsonSync,

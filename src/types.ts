@@ -17,6 +17,7 @@ export type TConfigJSON = {
 }
 
 export type TDataResult = {
+	id: string
 	name: string
 	actual: unknown
 	exceptation: unknown
@@ -68,6 +69,7 @@ export type TJSON = {
 	drowser: {
 		cases: [
 			{
+				id: string
 				time: string
 				cases: Array<TDataResult>
 			},
