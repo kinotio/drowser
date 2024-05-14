@@ -2,6 +2,7 @@ import {
 	existsSync,
 	join,
 	jsPDF,
+	nanoid,
 	readJsonSync,
 	writeJson,
 	writeJsonSync,
@@ -97,6 +98,7 @@ const exportJSONReport = (
 		const jsonData = readJsonSync(filePath) as TJSON
 
 		jsonData.drowser.cases.push({
+			id: nanoid(),
 			time: new Date().toISOString(),
 			cases: results,
 		})

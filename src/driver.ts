@@ -1,4 +1,4 @@
-import { assert, Builder, isEmpty, join, Kia } from '@deps'
+import { assert, Builder, isEmpty, join, Kia, nanoid } from '@deps'
 import type {
 	TAssertFunction,
 	TConfigJSON,
@@ -85,9 +85,10 @@ const driver = async (
 				)
 				const methodPromises: Promise<void>[] = []
 				const result = (
-					{ name, actual, exceptation, status }: TDataResult,
+					{ id, name, actual, exceptation, status }: TDataResult,
 				) => {
 					return {
+						id,
 						name,
 						actual,
 						exceptation,
@@ -111,6 +112,7 @@ const driver = async (
 								assertFunction(actualValue, c.except)
 								data.results.push(
 									result({
+										id: nanoid(),
 										name: c.method,
 										actual: actualValue,
 										exceptation: c.except,
@@ -121,6 +123,7 @@ const driver = async (
 								.catch(() => {
 									data.results.push(
 										result({
+											id: nanoid(),
 											name: c.method,
 											actual: actualValue,
 											exceptation: c.except,
