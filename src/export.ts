@@ -7,8 +7,9 @@ import {
 	writeJson,
 	writeJsonSync,
 } from '@deps'
-import { generateFileName, humanizeDuration } from '@pkg/utils.ts'
+import { generateFileName } from '@pkg/utils.ts'
 import { TDataResult, TJSON } from '@pkg/types.ts'
+import { caseStatus } from '@pkg/constants.ts'
 
 const exportGeneratedLog = (
 	{ results }: { results: Array<TDataResult> },
@@ -98,11 +99,17 @@ const exportJSONReport = (
 		const jsonData = readJsonSync(filePath) as TJSON
 		const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
 		const averageDuration = totalDuration / results.length
+		const totalTests = results.length
+		const passedTests = results.filter((r) =>
+			r.status === caseStatus.passed
+		).length
+		const coveragePercentage = (passedTests / totalTests) * 100
 
 		jsonData.drowser.cases.push({
 			id: nanoid(),
 			time: new Date().toISOString(),
-			avg_duration: humanizeDuration(averageDuration),
+			avg_duration: averageDuration,
+			coverage: coveragePercentage,
 			cases: results,
 		})
 
