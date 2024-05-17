@@ -5,7 +5,37 @@ driver({ browser: 'chrome' }).then(({ service }) => {
 		{
 			method: 'getTitle',
 			operator: 'assertEquals',
-			except: 'Todo App',
+			except: 'Drowser',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowser',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowsers',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowser',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowsers',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowsers',
+		},
+		{
+			method: 'getTitle',
+			operator: 'assertEquals',
+			except: 'Drowser',
 		},
 	]
 }).catch((error) => {

@@ -27,4 +27,24 @@ const generateFileName = (prefix: string, ext: 'log' | 'pdf'): string => {
 	return `${prefix}_${timestamp}.${ext}`
 }
 
-export { generateFileName, getTimestamp, isValidHttpUrl }
+const humanizeDuration = (durationMs: number): string => {
+	const secondsTotal = Math.round(durationMs / 1000)
+	const seconds = secondsTotal % 60
+	const minutesTotal = Math.floor(secondsTotal / 60)
+	const minutes = minutesTotal % 60
+	const hoursTotal = Math.floor(minutesTotal / 60)
+	const hours = hoursTotal % 24
+	const days = Math.floor(hoursTotal / 24)
+
+	let humanized = ''
+	if (days > 0) humanized += `${days}d `
+	if (hours > 0) humanized += `${hours}h `
+	if (minutes > 0) humanized += `${minutes}m `
+	if (seconds > 0 || (days === 0 && hours === 0 && minutes === 0)) {
+		humanized += `${seconds}s`
+	}
+
+	return humanized.trim()
+}
+
+export { generateFileName, getTimestamp, humanizeDuration, isValidHttpUrl }

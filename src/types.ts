@@ -22,7 +22,8 @@ export type TDataResult = {
 	actual: unknown
 	exceptation: unknown
 	status: string
-	timestamp?: Date
+	timestamp: Date
+	duration: number
 }
 
 export type TData = {
@@ -71,6 +72,7 @@ export type TJSON = {
 			{
 				id: string
 				time: string
+				avg_duration: string
 				cases: Array<TDataResult>
 			},
 		]
