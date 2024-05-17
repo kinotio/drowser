@@ -147,18 +147,82 @@ const driver = async (
 
 							methodPromises.push(methodPromise)
 						} else {
-							console.error(`Method ${c.method} not found on builder object.`)
+							console.error(
+								`Method ${c.method} not found on builder object.`,
+							)
 						}
 					}
 
 					if (typeof c === 'function') {}
 				})
 
+				const flakyCases: Array<TDataResult> = []
+				;((runs: number) => {
+					for (let i = 0; i < runs; i++) {
+						service.cases.forEach((c: TDrowserServiceCase) => {
+							const start = performance.now()
+
+							if (typeof c === 'object') {
+								const method =
+									(builder as unknown as Record<string, Function>)[c.method]
+
+								if (typeof method === 'function') {
+									const methodPromise = method.call(builder)
+									let actualValue: unknown = null
+
+									methodPromise.then((v: unknown) => {
+										const assertFunction = assert[c.operator] as TAssertFunction
+										actualValue = v
+										assertFunction(actualValue, c.except)
+
+										const end = performance.now()
+
+										flakyCases.push(
+											result({
+												id: nanoid(),
+												name: c.method,
+												actual: actualValue,
+												exceptation: c.except,
+												status: caseStatus.passed,
+												timestamp: new Date(),
+												duration: end - start,
+											}),
+										)
+									})
+										.catch(() => {
+											const end = performance.now()
+
+											flakyCases.push(
+												result({
+													id: nanoid(),
+													name: c.method,
+													actual: actualValue,
+													exceptation: c.except,
+													status: caseStatus.failed,
+													timestamp: new Date(),
+													duration: end - start,
+												}),
+											)
+										})
+
+									methodPromises.push(methodPromise)
+								} else {
+									console.error(
+										`Method ${c.method} not found on builder object.`,
+									)
+								}
+							}
+
+							if (typeof c === 'function') {}
+						})
+					}
+				})(5)
+
 				Promise.all(methodPromises)
 					.then(() => {
 						if (exportPdf) exportGeneratedPdf({ results: data.results })
 						exportGeneratedLog({ results: data.results })
-						exportJSONReport({ results: data.results })
+						exportJSONReport({ results: data.results, flakyTests: flakyCases })
 					})
 					.catch((error) => {
 						console.error('An error occurred while processing promises:', error)

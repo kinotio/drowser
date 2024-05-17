@@ -81,7 +81,10 @@ const exportGeneratedPdf = (
 }
 
 const exportJSONReport = (
-	{ results }: { results: Array<TDataResult> },
+	{ results, flakyTests }: {
+		results: Array<TDataResult>
+		flakyTests: Array<TDataResult>
+	},
 ): void => {
 	const filePath = join(Deno.cwd(), 'drowser-reports.json')
 	const hasFile = existsSync(filePath)
@@ -105,11 +108,35 @@ const exportJSONReport = (
 		).length
 		const coveragePercentage = (passedTests / totalTests) * 100
 
+		const flakyTestCount = (() => {
+			const resultMap = new Map<string, any[]>()
+
+			flakyTests.forEach((result) => {
+				const resultsForTest = resultMap.get(result.name) || []
+				resultsForTest.push(result.status)
+				resultMap.set(result.name, resultsForTest)
+			})
+
+			let flakyCount = 0
+
+			resultMap.forEach((results) => {
+				if (
+					results.includes(caseStatus.passed) &&
+					results.includes(caseStatus.failed)
+				) {
+					flakyCount++
+				}
+			})
+
+			return flakyCount
+		})()
+
 		jsonData.drowser.cases.push({
 			id: nanoid(),
 			time: new Date().toISOString(),
 			avg_duration: averageDuration,
 			coverage: coveragePercentage,
+			flaky: flakyTestCount,
 			cases: results,
 		})
 
