@@ -116,7 +116,7 @@ const driver = async (
 										name: c.method,
 										actual: actualValue,
 										exceptation: c.except,
-										status: caseStatus.ok,
+										status: caseStatus.passed,
 									}),
 								)
 							})
@@ -127,7 +127,7 @@ const driver = async (
 											name: c.method,
 											actual: actualValue,
 											exceptation: c.except,
-											status: caseStatus.ko,
+											status: caseStatus.failed,
 										}),
 									)
 								})

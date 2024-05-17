@@ -5,7 +5,7 @@ driver({ browser: 'chrome' }).then(({ service }) => {
 		{
 			method: 'getTitle',
 			operator: 'assertEquals',
-			except: 'Todo App',
+			except: 'Drowser',
 		},
 	]
 }).catch((error) => {

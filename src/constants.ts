@@ -22,8 +22,8 @@ const seleniumExceptions: Record<string, string> = {
 }
 
 const caseStatus: Record<string, string> = {
-	ok: 'ok',
-	ko: 'ko',
+	passed: 'passed',
+	failed: 'failed',
 }
 
 export { caseStatus, driverBrowserList, driverBrowsers, seleniumExceptions }
