@@ -85,7 +85,8 @@ const driver = async (
 				)
 				const methodPromises: Promise<void>[] = []
 				const result = (
-					{ id, name, actual, exceptation, status }: TDataResult,
+					{ id, name, actual, exceptation, status, duration, timestamp }:
+						TDataResult,
 				) => {
 					return {
 						id,
@@ -93,11 +94,14 @@ const driver = async (
 						actual,
 						exceptation,
 						status,
-						timestamp: new Date(),
+						timestamp,
+						duration,
 					}
 				}
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
+					const start = performance.now()
+
 					if (typeof c === 'object') {
 						const method =
 							(builder as unknown as Record<string, Function>)[c.method]
@@ -110,6 +114,9 @@ const driver = async (
 								const assertFunction = assert[c.operator] as TAssertFunction
 								actualValue = v
 								assertFunction(actualValue, c.except)
+
+								const end = performance.now()
+
 								data.results.push(
 									result({
 										id: nanoid(),
@@ -117,10 +124,14 @@ const driver = async (
 										actual: actualValue,
 										exceptation: c.except,
 										status: caseStatus.passed,
+										timestamp: new Date(),
+										duration: end - start,
 									}),
 								)
 							})
 								.catch(() => {
+									const end = performance.now()
+
 									data.results.push(
 										result({
 											id: nanoid(),
@@ -128,6 +139,8 @@ const driver = async (
 											actual: actualValue,
 											exceptation: c.except,
 											status: caseStatus.failed,
+											timestamp: new Date(),
+											duration: end - start,
 										}),
 									)
 								})

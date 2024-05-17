@@ -7,7 +7,7 @@ import {
 	writeJson,
 	writeJsonSync,
 } from '@deps'
-import { generateFileName } from '@pkg/utils.ts'
+import { generateFileName, humanizeDuration } from '@pkg/utils.ts'
 import { TDataResult, TJSON } from '@pkg/types.ts'
 
 const exportGeneratedLog = (
@@ -96,10 +96,13 @@ const exportJSONReport = (
 
 	if (Array.isArray(results) && results.length > 0) {
 		const jsonData = readJsonSync(filePath) as TJSON
+		const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
+		const averageDuration = totalDuration / results.length
 
 		jsonData.drowser.cases.push({
 			id: nanoid(),
 			time: new Date().toISOString(),
+			avg_duration: humanizeDuration(averageDuration),
 			cases: results,
 		})
 
