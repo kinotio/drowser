@@ -72,8 +72,9 @@ export type TJSON = {
 			{
 				id: string
 				time: string
-				avg_duration: string
+				avg_duration: number
 				coverage: number
+				flaky: number
 				cases: Array<TDataResult>
 			},
 		]
