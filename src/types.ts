@@ -66,8 +66,44 @@ export type TIsValidHttpUrlParams = {
 	url: string
 }
 
+export type DataPoint = {
+	x: string
+	y: number
+}
+
+export type DataSet = {
+	id: string
+	data: DataPoint[]
+}
+
+export type MonthCount = {
+	name: string
+	count: number
+}
+
+export type MonthValue = {
+	id: string
+	value: number
+}
+
 export type TJSON = {
 	drowser: {
+		metrics: {
+			total_tests: number
+			passing_tests: number
+			failed_tests: number
+			test_coverage: number
+			avg_test_duration: number
+			flaky_tests: number
+			graphs: {
+				total_tests: DataSet[]
+				passing_tests: MonthCount[]
+				failed_tests: MonthCount[]
+				test_coverage: MonthCount[]
+				avg_test_duration: MonthCount[]
+				flaky_tests: MonthValue[]
+			}
+		}
 		cases: [
 			{
 				id: string
@@ -75,7 +111,6 @@ export type TJSON = {
 				avg_duration: number
 				coverage: number
 				flaky: number
-				metrics: Record<string, any>
 				cases: Array<TDataResult>
 			},
 		]
