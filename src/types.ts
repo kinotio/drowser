@@ -75,6 +75,7 @@ export type TJSON = {
 				avg_duration: number
 				coverage: number
 				flaky: number
+				metrics: Record<string, any>
 				cases: Array<TDataResult>
 			},
 		]

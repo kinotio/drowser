@@ -9,7 +9,7 @@ import {
 } from '@deps'
 import { generateFileName } from '@pkg/utils.ts'
 import { TDataResult, TJSON } from '@pkg/types.ts'
-import { caseStatus } from '@pkg/constants.ts'
+import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
 	{ results }: { results: Array<TDataResult> },
@@ -100,43 +100,20 @@ const exportJSONReport = (
 
 	if (Array.isArray(results) && results.length > 0) {
 		const jsonData = readJsonSync(filePath) as TJSON
-		const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
-		const averageDuration = totalDuration / results.length
-		const totalTests = results.length
-		const passedTests = results.filter((r) =>
-			r.status === caseStatus.passed
-		).length
-		const coveragePercentage = (passedTests / totalTests) * 100
 
-		const flakyTestCount = (() => {
-			const resultMap = new Map<string, any[]>()
-
-			flakyTests.forEach((result) => {
-				const resultsForTest = resultMap.get(result.name) || []
-				resultsForTest.push(result.status)
-				resultMap.set(result.name, resultsForTest)
-			})
-
-			let flakyCount = 0
-
-			resultMap.forEach((results) => {
-				if (
-					results.includes(caseStatus.passed) &&
-					results.includes(caseStatus.failed)
-				) {
-					flakyCount++
-				}
-			})
-
-			return flakyCount
-		})()
+		const month = new Date().toLocaleString('default', { month: 'short' })
 
 		jsonData.drowser.cases.push({
 			id: nanoid(),
 			time: new Date().toISOString(),
-			avg_duration: averageDuration,
-			coverage: coveragePercentage,
-			flaky: flakyTestCount,
+			avg_duration: getAverageDuration({ results }),
+			coverage: getCoverage({ results }),
+			flaky: getFlaky({ flakyTests }),
+			metrics: {
+				total_tests: {
+					[month]: results.length,
+				},
+			},
 			cases: results,
 		})
 

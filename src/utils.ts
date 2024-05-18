@@ -1,4 +1,5 @@
-import { TIsValidHttpUrlParams } from '@pkg/types.ts'
+import { TDataResult, TIsValidHttpUrlParams } from '@pkg/types.ts'
+import { caseStatus } from '@pkg/constants.ts'
 
 const isValidHttpUrl = ({ url }: TIsValidHttpUrlParams): boolean => {
 	try {
@@ -47,4 +48,53 @@ const humanizeDuration = (durationMs: number): string => {
 	return humanized.trim()
 }
 
-export { generateFileName, getTimestamp, humanizeDuration, isValidHttpUrl }
+const getAverageDuration = ({ results }: { results: Array<TDataResult> }) => {
+	const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
+	const averageDuration = totalDuration / results.length
+	return averageDuration
+}
+
+const getCoverage = ({ results }: { results: Array<TDataResult> }) => {
+	const totalTests = results.length
+	const passedTests =
+		results.filter((r) => r.status === caseStatus.passed).length
+	const coveragePercentage = (passedTests / totalTests) * 100
+	return coveragePercentage
+}
+
+const getFlaky = ({ flakyTests }: { flakyTests: Array<TDataResult> }) => {
+	const flakyTestCount = (() => {
+		const resultMap = new Map<string, any[]>()
+
+		flakyTests.forEach((result) => {
+			const resultsForTest = resultMap.get(result.name) || []
+			resultsForTest.push(result.status)
+			resultMap.set(result.name, resultsForTest)
+		})
+
+		let flakyCount = 0
+
+		resultMap.forEach((results) => {
+			if (
+				results.includes(caseStatus.passed) &&
+				results.includes(caseStatus.failed)
+			) {
+				flakyCount++
+			}
+		})
+
+		return flakyCount
+	})()
+
+	return flakyTestCount
+}
+
+export {
+	generateFileName,
+	getAverageDuration,
+	getCoverage,
+	getFlaky,
+	getTimestamp,
+	humanizeDuration,
+	isValidHttpUrl,
+}
