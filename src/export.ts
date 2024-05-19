@@ -7,7 +7,7 @@ import {
 	writeJson,
 	writeJsonSync,
 } from '@deps'
-import { generateFileName } from '@pkg/utils.ts'
+import { generateFileName, updateOrCreate } from '@pkg/utils.ts'
 import { TDataResult, TJSON } from '@pkg/types.ts'
 import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
 
@@ -135,32 +135,77 @@ const exportJSONReport = (
 				total_tests: [
 					{
 						id: 'years',
-						data: [{
-							x: month,
-							y: totalTests.length,
-						}],
+						data: jsonData?.drowser?.metrics?.graphs?.total_tests[0]
+							.data as any ?? [],
 					},
 				],
-				passing_tests: [
-					{ name: month, count: groupByStatus?.passed?.length ?? 0 },
-				],
-				failed_tests: [
-					{ name: month, count: groupByStatus?.failed?.length ?? 0 },
-				],
-				test_coverage: [
-					{ name: month, count: getCoverage({ results: totalTests }) ?? 0 },
-				],
-				avg_test_duration: [
-					{
-						name: month,
-						count: getAverageDuration({ results: totalTests }) ?? 0,
-					},
-				],
-				flaky_tests: [
-					{ id: month, value: flakyTestsCount ?? 0 },
-				],
+				passing_tests:
+					jsonData?.drowser?.metrics?.graphs?.passing_tests as any ?? [],
+				failed_tests: jsonData?.drowser?.metrics?.graphs?.failed_tests as any ??
+					[],
+				test_coverage:
+					jsonData?.drowser?.metrics?.graphs?.test_coverage as any ?? [],
+				avg_test_duration: jsonData?.drowser?.metrics?.graphs
+					?.avg_test_duration as any ?? [],
+				flaky_tests: jsonData?.drowser?.metrics?.graphs
+					?.flaky_tests as any ?? [],
 			},
 		}
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs?.total_tests[0]?.data as Array<
+				Record<string, any>
+			>,
+			'x',
+			{ x: month, y: totalTests.length },
+			month,
+		)
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs?.passing_tests as Array<
+				Record<string, any>
+			>,
+			'name',
+			{ name: month, count: groupByStatus?.passed?.length },
+			month,
+		)
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs?.failed_tests as Array<
+				Record<string, any>
+			>,
+			'name',
+			{ name: month, count: groupByStatus?.failed?.length },
+			month,
+		)
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs?.test_coverage as Array<
+				Record<string, any>
+			>,
+			'name',
+			{ name: month, count: getCoverage({ results: totalTests }) },
+			month,
+		)
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs?.avg_test_duration as Array<
+				Record<string, any>
+			>,
+			'name',
+			{ name: month, count: getAverageDuration({ results: totalTests }) },
+			month,
+		)
+
+		updateOrCreate(
+			jsonData?.drowser?.metrics?.graphs
+				?.flaky_tests as Array<
+					Record<string, any>
+				>,
+			'id',
+			{ id: month, value: flakyTestsCount },
+			month,
+		)
 
 		jsonData.drowser.cases.push({
 			id: nanoid(),

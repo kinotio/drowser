@@ -89,6 +89,24 @@ const getFlaky = ({ flakyTests }: { flakyTests: Array<TDataResult> }) => {
 	return flakyTestCount
 }
 
+const updateOrCreate = (
+	arr: any[],
+	key: string,
+	newObj: any,
+	month: string,
+) => {
+	if (Array.isArray(arr) && arr.length > 0) {
+		const index = arr.findIndex((item) => item[key] === month)
+		if (index !== -1) {
+			Object.assign(arr[index], newObj)
+		} else {
+			arr.push(newObj)
+		}
+	} else {
+		arr.push(newObj)
+	}
+}
+
 export {
 	generateFileName,
 	getAverageDuration,
@@ -97,4 +115,5 @@ export {
 	getTimestamp,
 	humanizeDuration,
 	isValidHttpUrl,
+	updateOrCreate,
 }
