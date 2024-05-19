@@ -95,7 +95,7 @@ export type TJSON = {
 			test_coverage: number
 			avg_test_duration: number
 			flaky_tests: number
-			graphs: {
+			graphs?: {
 				total_tests: DataSet[]
 				passing_tests: MonthCount[]
 				failed_tests: MonthCount[]
