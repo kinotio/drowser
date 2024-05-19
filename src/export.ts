@@ -105,17 +105,37 @@ const exportJSONReport = (
 		const month = new Date().toLocaleString('default', { month: 'short' })
 		console.log(month)
 
+		const totalTests = [
+			...jsonData.drowser.cases.flatMap((item) => item.cases),
+			...results,
+		]
+
+		const groupByStatus = Object.groupBy(
+			totalTests,
+			({ status }: { status: string }) => status,
+		)
+
+		const testCoverage = getCoverage({ results: totalTests })
+
+		const avgTestDuration = getAverageDuration({ results: totalTests })
+
+		const flakyTestsCount = jsonData.drowser.cases.map((item) => item.flaky)
+			.reduce(
+				(acc, cur) => acc + cur,
+				0,
+			)
+
 		jsonData.drowser.metrics = {
-			total_tests: 10,
-			passing_tests: 13,
-			failed_tests: 100,
-			test_coverage: 23,
-			avg_test_duration: 2,
-			flaky_tests: 23,
+			total_tests: totalTests.length ?? 0,
+			passing_tests: groupByStatus?.passed?.length ?? 0,
+			failed_tests: groupByStatus?.failed?.length ?? 0,
+			test_coverage: testCoverage ?? 0,
+			avg_test_duration: avgTestDuration ?? 0,
+			flaky_tests: flakyTestsCount,
 			graphs: {
 				total_tests: [
 					{
-						id: 'Totals',
+						id: 'years',
 						data: [
 							{ x: 'Jan', y: 43 },
 							{ x: 'Feb', y: 137 },
@@ -123,7 +143,6 @@ const exportJSONReport = (
 							{ x: 'Apr', y: 145 },
 							{ x: 'May', y: 26 },
 							{ x: 'Jun', y: 154 },
-							{ x: 'Jun', y: 72 },
 							{ x: 'Jul', y: 111 },
 							{ x: 'Aug', y: 157 },
 							{ x: 'Sep', y: 129 },
@@ -195,7 +214,6 @@ const exportJSONReport = (
 					{ id: 'Mar', value: 129 },
 					{ id: 'Apr', value: 150 },
 					{ id: 'May', value: 119 },
-					{ id: 'Jun', value: 72 },
 					{ id: 'Jun', value: 72 },
 					{ id: 'Jul', value: 111 },
 					{ id: 'Aug', value: 157 },
