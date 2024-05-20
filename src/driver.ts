@@ -96,6 +96,7 @@ const driver = async (
 						duration,
 						timestamp,
 						month_of_test,
+						browser,
 					}: TDataResult,
 				) => {
 					return {
@@ -107,6 +108,7 @@ const driver = async (
 						timestamp,
 						duration,
 						month_of_test,
+						browser,
 					}
 				}
 
@@ -138,6 +140,7 @@ const driver = async (
 										timestamp: new Date(),
 										duration: end - start,
 										month_of_test: month,
+										browser,
 									}),
 								)
 							})
@@ -154,6 +157,7 @@ const driver = async (
 											timestamp: new Date(),
 											duration: end - start,
 											month_of_test: month,
+											browser,
 										}),
 									)
 								})
@@ -200,6 +204,7 @@ const driver = async (
 												timestamp: new Date(),
 												duration: end - start,
 												month_of_test: month,
+												browser,
 											}),
 										)
 									})
@@ -216,6 +221,7 @@ const driver = async (
 													timestamp: new Date(),
 													duration: end - start,
 													month_of_test: month,
+													browser,
 												}),
 											)
 										})

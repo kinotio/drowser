@@ -25,6 +25,7 @@ export type TDataResult = {
 	timestamp: Date
 	duration: number
 	month_of_test: string
+	browser: TDriverBrowser
 }
 
 export type TData = {
