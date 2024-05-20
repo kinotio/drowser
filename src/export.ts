@@ -130,10 +130,6 @@ const exportJSONReport = (
 			({ status }: { status: string }) => status,
 		)
 
-		const testCoverage = getCoverage({ results: totalTests })
-
-		const avgTestDuration = getAverageDuration({ results: totalTests })
-
 		const flakyTestsCount = jsonData.drowser.cases.filter((c) =>
 			c.month_of_test === month
 		).map((item) => item.flaky)
@@ -146,13 +142,37 @@ const exportJSONReport = (
 			current_month: month,
 		}
 
+		const CombinedTotalTests = [
+			...jsonData.drowser.cases.flatMap((item) => item.cases),
+			...results,
+		]
+
+		const CombinedGroupByStatus = Object.groupBy(
+			totalTests,
+			({ status }: { status: string }) => status,
+		)
+
+		const CombinedTestCoverage = getCoverage({ results: CombinedTotalTests })
+
+		const CombinedAvgTestDuration = getAverageDuration({
+			results: CombinedTotalTests,
+		})
+
+		const CombinedFlakyTestsCount = jsonData.drowser.cases.map((item) =>
+			item.flaky
+		)
+			.reduce(
+				(acc, cur) => acc + cur,
+				0,
+			)
+
 		jsonData.drowser.metrics = {
-			total_tests: totalTests.length ?? 0,
-			passing_tests: groupByStatus?.passed?.length ?? 0,
-			failed_tests: groupByStatus?.failed?.length ?? 0,
-			test_coverage: testCoverage ?? 0,
-			avg_test_duration: avgTestDuration ?? 0,
-			flaky_tests: flakyTestsCount,
+			total_tests: CombinedTotalTests.length ?? 0,
+			passing_tests: CombinedGroupByStatus?.passed?.length ?? 0,
+			failed_tests: CombinedGroupByStatus?.failed?.length ?? 0,
+			test_coverage: CombinedTestCoverage ?? 0,
+			avg_test_duration: CombinedAvgTestDuration ?? 0,
+			flaky_tests: CombinedFlakyTestsCount,
 			graphs: {
 				total_tests: [
 					{
