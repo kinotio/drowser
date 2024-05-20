@@ -24,6 +24,7 @@ export type TDataResult = {
 	status: string
 	timestamp: Date
 	duration: number
+	month_of_test: string
 }
 
 export type TData = {
@@ -88,6 +89,9 @@ export type MonthValue = {
 
 export type TJSON = {
 	drowser: {
+		metadata: {
+			current_month: string
+		}
 		metrics: {
 			total_tests: number
 			passing_tests: number
@@ -111,6 +115,7 @@ export type TJSON = {
 				avg_duration: number
 				coverage: number
 				flaky: number
+				month_of_test: string
 				cases: Array<TDataResult>
 			},
 		]

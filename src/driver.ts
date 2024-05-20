@@ -9,7 +9,7 @@ import type {
 	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
-import { isValidHttpUrl } from '@pkg/utils.ts'
+import { getCurrentMonth, isValidHttpUrl } from '@pkg/utils.ts'
 import {
 	caseStatus,
 	driverBrowserList,
@@ -64,6 +64,8 @@ const driver = async (
 	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
+		const month = getCurrentMonth({ type: 'short' })
+
 		const builder = new Builder().forBrowser(
 			driverBrowsers[browser],
 		)
@@ -85,8 +87,16 @@ const driver = async (
 				)
 				const methodPromises: Promise<void>[] = []
 				const result = (
-					{ id, name, actual, exceptation, status, duration, timestamp }:
-						TDataResult,
+					{
+						id,
+						name,
+						actual,
+						exceptation,
+						status,
+						duration,
+						timestamp,
+						month_of_test,
+					}: TDataResult,
 				) => {
 					return {
 						id,
@@ -96,6 +106,7 @@ const driver = async (
 						status,
 						timestamp,
 						duration,
+						month_of_test,
 					}
 				}
 
@@ -126,6 +137,7 @@ const driver = async (
 										status: caseStatus.passed,
 										timestamp: new Date(),
 										duration: end - start,
+										month_of_test: month,
 									}),
 								)
 							})
@@ -141,6 +153,7 @@ const driver = async (
 											status: caseStatus.failed,
 											timestamp: new Date(),
 											duration: end - start,
+											month_of_test: month,
 										}),
 									)
 								})
@@ -186,6 +199,7 @@ const driver = async (
 												status: caseStatus.passed,
 												timestamp: new Date(),
 												duration: end - start,
+												month_of_test: month,
 											}),
 										)
 									})
@@ -201,6 +215,7 @@ const driver = async (
 													status: caseStatus.failed,
 													timestamp: new Date(),
 													duration: end - start,
+													month_of_test: month,
 												}),
 											)
 										})

@@ -1,5 +1,6 @@
 import {
 	existsSync,
+	isEmpty,
 	join,
 	jsPDF,
 	nanoid,
@@ -7,7 +8,11 @@ import {
 	writeJson,
 	writeJsonSync,
 } from '@deps'
-import { generateFileName, updateOrCreate } from '@pkg/utils.ts'
+import {
+	generateFileName,
+	getCurrentMonth,
+	updateOrCreate,
+} from '@pkg/utils.ts'
 import { TDataResult, TJSON } from '@pkg/types.ts'
 import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
 
@@ -102,10 +107,21 @@ const exportJSONReport = (
 	if (Array.isArray(results) && results.length > 0) {
 		const jsonData = readJsonSync(filePath) as TJSON
 
-		const month = new Date().toLocaleString('default', { month: 'short' })
+		const month = getCurrentMonth({ type: 'short' })
 
+		if (isEmpty(jsonData?.drowser?.metadata?.current_month)) {
+			jsonData.drowser.metadata = {
+				current_month: month,
+			}
+		}
+
+		const flatedTotalTests = jsonData.drowser.metadata.current_month === month
+			? jsonData.drowser.cases.flatMap((item) => item.cases).filter((c) =>
+				c.month_of_test === month
+			)
+			: []
 		const totalTests = [
-			...jsonData.drowser.cases.flatMap((item) => item.cases),
+			...flatedTotalTests,
 			...results,
 		]
 
@@ -118,11 +134,17 @@ const exportJSONReport = (
 
 		const avgTestDuration = getAverageDuration({ results: totalTests })
 
-		const flakyTestsCount = jsonData.drowser.cases.map((item) => item.flaky)
+		const flakyTestsCount = jsonData.drowser.cases.filter((c) =>
+			c.month_of_test === month
+		).map((item) => item.flaky)
 			.reduce(
 				(acc, cur) => acc + cur,
 				0,
 			)
+
+		jsonData.drowser.metadata = {
+			current_month: month,
+		}
 
 		jsonData.drowser.metrics = {
 			total_tests: totalTests.length ?? 0,
@@ -213,6 +235,7 @@ const exportJSONReport = (
 			avg_duration: getAverageDuration({ results }),
 			coverage: getCoverage({ results }),
 			flaky: getFlaky({ flakyTests }),
+			month_of_test: month,
 			cases: results,
 		})
 
