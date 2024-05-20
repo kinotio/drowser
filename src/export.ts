@@ -148,7 +148,7 @@ const exportJSONReport = (
 		]
 
 		const CombinedGroupByStatus = Object.groupBy(
-			totalTests,
+			CombinedTotalTests,
 			({ status }: { status: string }) => status,
 		)
 
