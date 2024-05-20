@@ -107,10 +107,17 @@ const updateOrCreate = (
 	}
 }
 
+const getCurrentMonth = ({ type = 'long' }: { type: 'long' | 'short' }) => {
+	return new Date().toLocaleString('default', {
+		month: type,
+	})
+}
+
 export {
 	generateFileName,
 	getAverageDuration,
 	getCoverage,
+	getCurrentMonth,
 	getFlaky,
 	getTimestamp,
 	humanizeDuration,
