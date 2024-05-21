@@ -248,7 +248,7 @@ const driver = async (
 					.catch((error) => {
 						console.error('An error occurred while processing promises:', error)
 					}).finally(() => {
-						kia.succeed('All tests completed')
+						kia.succeed(`All tests completed on ${browser}`)
 						builder.quit()
 					})
 			})
