@@ -117,6 +117,7 @@ export type TJSON = {
 				coverage: number
 				flaky: number
 				month_of_test: string
+				browser: TDriverBrowser
 				cases: Array<TDataResult>
 			},
 		]

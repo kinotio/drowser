@@ -13,7 +13,7 @@ import {
 	getCurrentMonth,
 	updateOrCreate,
 } from '@pkg/utils.ts'
-import { TDataResult, TJSON } from '@pkg/types.ts'
+import { TDataResult, TDriverBrowser, TJSON } from '@pkg/types.ts'
 import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
@@ -86,9 +86,10 @@ const exportGeneratedPdf = (
 }
 
 const exportJSONReport = (
-	{ results, flakyTests }: {
+	{ results, flakyTests, browser }: {
 		results: Array<TDataResult>
 		flakyTests: Array<TDataResult>
+		browser: TDriverBrowser
 	},
 ): void => {
 	const filePath = join(Deno.cwd(), 'drowser-reports.json')
@@ -256,6 +257,7 @@ const exportJSONReport = (
 			coverage: getCoverage({ results }),
 			flaky: getFlaky({ flakyTests }),
 			month_of_test: month,
+			browser,
 			cases: results,
 		})
 
