@@ -243,7 +243,11 @@ const driver = async (
 					.then(() => {
 						if (exportPdf) exportGeneratedPdf({ results: data.results })
 						exportGeneratedLog({ results: data.results })
-						exportJSONReport({ results: data.results, flakyTests: flakyCases })
+						exportJSONReport({
+							results: data.results,
+							flakyTests: flakyCases,
+							browser,
+						})
 					})
 					.catch((error) => {
 						console.error('An error occurred while processing promises:', error)
