@@ -26,4 +26,15 @@ const caseStatus: Record<string, string> = {
 	failed: 'failed',
 }
 
-export { caseStatus, driverBrowserList, driverBrowsers, seleniumExceptions }
+const dataResultType: Record<string, string> = {
+	object: 'object',
+	function: 'function',
+}
+
+export {
+	caseStatus,
+	dataResultType,
+	driverBrowserList,
+	driverBrowsers,
+	seleniumExceptions,
+}
