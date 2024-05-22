@@ -1,6 +1,7 @@
 import { assert, Builder, isEmpty, join, Kia, nanoid } from '@deps'
 import type {
 	TAssertFunction,
+	TCaseFn,
 	TConfigJSON,
 	TData,
 	TDataResult,
@@ -116,6 +117,9 @@ const driver = async (
 					const start = performance.now()
 
 					if (typeof c === 'object') {
+						const objectStingified = JSON.stringify(c)
+						console.log(objectStingified)
+
 						const method =
 							(builder as unknown as Record<string, Function>)[c.method]
 
@@ -164,13 +168,26 @@ const driver = async (
 
 							methodPromises.push(methodPromise)
 						} else {
-							console.error(
+							reject(
 								`Method ${c.method} not found on builder object.`,
 							)
 						}
 					}
 
-					if (typeof c === 'function') {}
+					if (typeof c === 'function') {
+						const method = c as TCaseFn
+						const methodPromise = method(builder, assert)
+						const fnStringified = c.toString()
+						console.log(fnStringified)
+
+						methodPromise.then((v: unknown) => {
+							console.log(v)
+						}).catch((error) => {
+							console.log(error.name)
+						})
+
+						methodPromises.push(methodPromise)
+					}
 				})
 
 				const flakyCases: Array<TDataResult> = []
@@ -249,9 +266,7 @@ const driver = async (
 							browser,
 						})
 					})
-					.catch((error) => {
-						console.error('An error occurred while processing promises:', error)
-					}).finally(() => {
+					.catch((error) => reject(error)).finally(() => {
 						kia.succeed(`All tests completed on ${browser}`)
 						builder.quit()
 					})

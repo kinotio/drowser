@@ -40,15 +40,38 @@ export type TDrowserBuilder = Omit<
 	'get'
 >
 
-export type TDrowserServiceCase = {
-	method: keyof MethodsStartingWith<TDrowserBuilder, 'get'>
-	operator: keyof typeof assert
-	except: unknown
-}
+export type TDrowserDriverBuilder = Omit<
+	ThenableWebDriver,
+	'get' | 'quit' | 'then' | 'catch' | 'close' | 'finally'
+>
+
+export type TDrowserDriverAssert = typeof assert
+
+export type TDrowserServiceCase =
+	| {
+		method: keyof MethodsStartingWith<TDrowserBuilder, 'get'>
+		operator: keyof typeof assert
+		except: unknown
+	}
+	| ((
+		builder: TDrowserDriverBuilder,
+		assert: TDrowserDriverAssert,
+	) => void)
 
 export type TDrowserService = {
-	cases: Array<TDrowserServiceCase | (() => void)>
+	cases: Array<
+		| TDrowserServiceCase
+		| ((
+			builder: TDrowserDriverBuilder,
+			assert: TDrowserDriverAssert,
+		) => void)
+	>
 }
+
+export type TCaseFn = (
+	builder: TDrowserDriverBuilder,
+	assert: TDrowserDriverAssert,
+) => Promise<void>
 
 export type TDrowserDriverResponse = {
 	service: TDrowserService

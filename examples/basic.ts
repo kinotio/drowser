@@ -10,106 +10,26 @@ driver({ browser: 'chrome' }).then(({ service }) => {
 		{
 			method: 'getTitle',
 			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
 			except: 'Drowsers',
 		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
+		async (builder, assert) => {
+			const title = await builder.getTitle()
+			assert.assertEquals(title, 'Drowsers')
 		},
 	]
-}).catch((error) => {
-	console.log(error)
-})
+}).catch((error) => console.log('Error from client', error))
 
-driver({ browser: 'firefox' }).then(({ service }) => {
-	service.cases = [
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-		{
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowsers',
-		},
-	]
-}).catch((error) => {
-	console.log(error)
-})
+// driver({ browser: 'firefox' }).then(({ service }) => {
+// 	service.cases = [
+// 		{
+// 			method: 'getTitle',
+// 			operator: 'assertEquals',
+// 			except: 'Drowser',
+// 		},
+// 		{
+// 			method: 'getTitle',
+// 			operator: 'assertEquals',
+// 			except: 'Drowsers',
+// 		},
+// 	]
+// }).catch((error) => console.log(error))

@@ -1,6 +1,6 @@
 // @deno-types="npm:@types/selenium-webdriver@^4.1.22"
-import { Browser, Builder } from 'selenium-webdriver'
-import type { ThenableWebDriver } from 'selenium-webdriver'
+import { Browser, Builder, By } from 'selenium-webdriver'
+import type { By as TBy, ThenableWebDriver } from 'selenium-webdriver'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
 
@@ -21,6 +21,7 @@ export {
 	assert,
 	Browser,
 	Builder,
+	By,
 	createWriteStream,
 	existsSync,
 	isEmpty,
@@ -31,6 +32,7 @@ export {
 	OpenAI,
 	readJson,
 	readJsonSync,
+	TBy,
 	ThenableWebDriver,
 	writeJson,
 	writeJsonSync,
