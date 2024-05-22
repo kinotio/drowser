@@ -13,6 +13,7 @@ import type {
 import { getCurrentMonth, isValidHttpUrl } from '@pkg/utils.ts'
 import {
 	caseStatus,
+	dataResultType,
 	driverBrowserList,
 	driverBrowsers,
 	seleniumExceptions,
@@ -97,6 +98,7 @@ const driver = async (
 						duration,
 						timestamp,
 						month_of_test,
+						type,
 						browser,
 					}: TDataResult,
 				) => {
@@ -109,6 +111,7 @@ const driver = async (
 						timestamp,
 						duration,
 						month_of_test,
+						type,
 						browser,
 					}
 				}
@@ -144,6 +147,7 @@ const driver = async (
 										timestamp: new Date(),
 										duration: end - start,
 										month_of_test: month,
+										type: dataResultType.object,
 										browser,
 									}),
 								)
@@ -161,6 +165,7 @@ const driver = async (
 											timestamp: new Date(),
 											duration: end - start,
 											month_of_test: month,
+											type: dataResultType.object,
 											browser,
 										}),
 									)
@@ -221,6 +226,7 @@ const driver = async (
 												timestamp: new Date(),
 												duration: end - start,
 												month_of_test: month,
+												type: dataResultType.object,
 												browser,
 											}),
 										)
@@ -238,6 +244,7 @@ const driver = async (
 													timestamp: new Date(),
 													duration: end - start,
 													month_of_test: month,
+													type: dataResultType.object,
 													browser,
 												}),
 											)
@@ -256,17 +263,19 @@ const driver = async (
 					}
 				})(5)
 
-				Promise.all(methodPromises)
-					.then(() => {
-						if (exportPdf) exportGeneratedPdf({ results: data.results })
-						exportGeneratedLog({ results: data.results })
-						exportJSONReport({
-							results: data.results,
-							flakyTests: flakyCases,
-							browser,
-						})
+				const exportGeneratedFiles = () => {
+					if (exportPdf) exportGeneratedPdf({ results: data.results })
+					exportGeneratedLog({ results: data.results })
+					exportJSONReport({
+						results: data.results,
+						flakyTests: flakyCases,
+						browser,
 					})
-					.catch((error) => reject(error)).finally(() => {
+				}
+
+				Promise.all(methodPromises)
+					.then(() => exportGeneratedFiles())
+					.catch(() => exportGeneratedFiles()).finally(() => {
 						kia.succeed(`All tests completed on ${browser}`)
 						builder.quit()
 					})
