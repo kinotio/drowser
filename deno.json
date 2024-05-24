@@ -1,5 +1,7 @@
 {
+  "name": "@iamando/drowser",
   "version": "0.1.1",
+  "exports": "./mod.ts",
   "importMap": "./import_map.json",
   "tasks": {
     "run:example:basic": "deno run -A examples/basic.ts",

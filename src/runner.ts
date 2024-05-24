@@ -1,10 +1,12 @@
-import { assert, nanoid } from '@deps'
+import { assert, By, isEmpty, nanoid } from '@deps'
 import {
 	TAssertFunction,
+	TCaseFn,
 	TDataResult,
+	TDriverServiceCaseParamsBuilder,
 	TDrowserServiceCase,
 } from '@pkg/types.ts'
-import { caseStatus, dataResultType } from '@pkg/constants.ts'
+import { caseStatus } from '@pkg/constants.ts'
 import { getCurrentMonth } from '@pkg/utils.ts'
 
 const flakyRunner = (
@@ -43,14 +45,11 @@ const flakyRunner = (
 							flakyCases.push(
 								result({
 									id: nanoid(),
-									name: c.method,
-									actual: actualValue,
-									exceptation: c.except,
+									name: c.name,
 									status: caseStatus.passed,
 									timestamp: new Date(),
 									duration: end - start,
 									month_of_test: month,
-									type: dataResultType.object,
 									browser,
 								}),
 							)
@@ -61,14 +60,11 @@ const flakyRunner = (
 								flakyCases.push(
 									result({
 										id: nanoid(),
-										name: c.method,
-										actual: actualValue,
-										exceptation: c.except,
+										name: c.name,
 										status: caseStatus.failed,
 										timestamp: new Date(),
 										duration: end - start,
 										month_of_test: month,
-										type: dataResultType.object,
 										browser,
 									}),
 								)
@@ -82,7 +78,52 @@ const flakyRunner = (
 					}
 				}
 
-				if (typeof c === 'function') {}
+				if (typeof c === 'function') {
+					const omitedBuilder =
+						builder as unknown as TDriverServiceCaseParamsBuilder
+					const megaBuilder = {
+						name: '',
+						builder: omitedBuilder,
+						assert,
+						by: By,
+					}
+					const method = c as TCaseFn
+					const methodPromise = method(megaBuilder)
+
+					if (isEmpty(megaBuilder.name)) return
+
+					methodPromise.then(() => {
+						const end = performance.now()
+
+						flakyCases.push(
+							result({
+								id: nanoid(),
+								name: megaBuilder.name,
+								status: caseStatus.passed,
+								timestamp: new Date(),
+								duration: end - start,
+								month_of_test: month,
+								browser,
+							}),
+						)
+					}).catch(() => {
+						const end = performance.now()
+
+						flakyCases.push(
+							result({
+								id: nanoid(),
+								name: megaBuilder.name,
+								status: caseStatus.failed,
+								timestamp: new Date(),
+								duration: end - start,
+								month_of_test: month,
+								browser,
+							}),
+						)
+					})
+
+					methodPromises.push(methodPromise)
+				}
 			})
 		}
 	})(countRun)
