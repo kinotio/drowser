@@ -1,5 +1,5 @@
 import { assert } from '@deps'
-import type { ThenableWebDriver } from '@deps'
+import type { By, ThenableWebDriver } from '@deps'
 
 type MethodsStartingWith<T, Prefix extends string> = {
 	[K in keyof T as K extends `${Prefix}${string}` ? K : never]: T[K]
@@ -19,13 +19,10 @@ export type TConfigJSON = {
 export type TDataResult = {
 	id: string
 	name: string
-	actual: unknown
-	exceptation: unknown
 	status: string
 	timestamp: Date
 	duration: number
 	month_of_test: string
-	type: string
 	browser: TDriverBrowser
 }
 
@@ -41,37 +38,46 @@ export type TDrowserBuilder = Omit<
 	'get'
 >
 
-export type TDrowserDriverBuilder = Omit<
+export type TDriverServiceCaseParamsBuilder = Omit<
 	ThenableWebDriver,
 	'get' | 'quit' | 'then' | 'catch' | 'close' | 'finally'
 >
+
+export type TDriverServiceCaseParamsAssert = typeof assert
+
+export type TDriverServiceCaseParamsBy = typeof By
+
+type TDriverBrowserCaseParams = {
+	builder: TDriverServiceCaseParamsBuilder
+	assert: TDriverServiceCaseParamsAssert
+	by: TDriverServiceCaseParamsBy
+}
 
 export type TDrowserDriverAssert = typeof assert
 
 export type TDrowserServiceCase =
 	| {
+		name: string
 		method: keyof MethodsStartingWith<TDrowserBuilder, 'get'>
 		operator: keyof typeof assert
 		except: unknown
 	}
 	| ((
-		builder: TDrowserDriverBuilder,
-		assert: TDrowserDriverAssert,
+		params: TDriverBrowserCaseParams,
 	) => void)
 
 export type TDrowserService = {
+	name: string
 	cases: Array<
 		| TDrowserServiceCase
 		| ((
-			builder: TDrowserDriverBuilder,
-			assert: TDrowserDriverAssert,
+			params: TDriverBrowserCaseParams,
 		) => void)
 	>
 }
 
 export type TCaseFn = (
-	builder: TDrowserDriverBuilder,
-	assert: TDrowserDriverAssert,
+	params: TDriverBrowserCaseParams,
 ) => Promise<void>
 
 export type TDrowserDriverResponse = {

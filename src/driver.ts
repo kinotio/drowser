@@ -1,19 +1,18 @@
-import { assert, Builder, isEmpty, join, Kia, nanoid } from '@deps'
+import { assert, Builder, By, isEmpty, join, Kia, nanoid } from '@deps'
 import type {
 	TAssertFunction,
 	TCaseFn,
 	TConfigJSON,
 	TData,
-	TDataResult,
 	TDriverParams,
+	TDriverServiceCaseParamsBuilder,
 	TDrowserDriverResponse,
 	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
-import { getCurrentMonth, isValidHttpUrl } from '@pkg/utils.ts'
+import { getCurrentMonth, isValidHttpUrl, result } from '@pkg/utils.ts'
 import {
 	caseStatus,
-	dataResultType,
 	driverBrowserList,
 	driverBrowsers,
 	seleniumExceptions,
@@ -23,6 +22,7 @@ import {
 	exportGeneratedPdf,
 	exportJSONReport,
 } from '@pkg/export.ts'
+import { flakyRunner } from '@pkg/runner.ts'
 
 const driver = async (
 	{ browser }: TDriverParams,
@@ -73,7 +73,7 @@ const driver = async (
 		)
 			.build() as TDrowserThenableWebDriver
 
-		const service = { cases: [] }
+		const service = { name: '', cases: [] }
 
 		const kia = new Kia('Processing your tests')
 		kia.start()
@@ -88,41 +88,11 @@ const driver = async (
 					Deno.readTextFileSync(configPath),
 				)
 				const methodPromises: Promise<void>[] = []
-				const result = (
-					{
-						id,
-						name,
-						actual,
-						exceptation,
-						status,
-						duration,
-						timestamp,
-						month_of_test,
-						type,
-						browser,
-					}: TDataResult,
-				) => {
-					return {
-						id,
-						name,
-						actual,
-						exceptation,
-						status,
-						timestamp,
-						duration,
-						month_of_test,
-						type,
-						browser,
-					}
-				}
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
 					const start = performance.now()
 
 					if (typeof c === 'object') {
-						const objectStingified = JSON.stringify(c)
-						console.log(objectStingified)
-
 						const method =
 							(builder as unknown as Record<string, Function>)[c.method]
 
@@ -140,14 +110,11 @@ const driver = async (
 								data.results.push(
 									result({
 										id: nanoid(),
-										name: c.method,
-										actual: actualValue,
-										exceptation: c.except,
+										name: c.name,
 										status: caseStatus.passed,
 										timestamp: new Date(),
 										duration: end - start,
 										month_of_test: month,
-										type: dataResultType.object,
 										browser,
 									}),
 								)
@@ -158,14 +125,11 @@ const driver = async (
 									data.results.push(
 										result({
 											id: nanoid(),
-											name: c.method,
-											actual: actualValue,
-											exceptation: c.except,
+											name: c.name,
 											status: caseStatus.failed,
 											timestamp: new Date(),
 											duration: end - start,
 											month_of_test: month,
-											type: dataResultType.object,
 											browser,
 										}),
 									)
@@ -180,88 +144,59 @@ const driver = async (
 					}
 
 					if (typeof c === 'function') {
+						const omitedBuilder =
+							builder as unknown as TDriverServiceCaseParamsBuilder
+						const megaBuilder = {
+							builder: omitedBuilder,
+							assert,
+							by: By,
+						}
 						const method = c as TCaseFn
-						const methodPromise = method(builder, assert)
-						const fnStringified = c.toString()
-						console.log(fnStringified)
+						const methodPromise = method(megaBuilder)
 
-						methodPromise.then((v: unknown) => {
-							console.log(v)
-						}).catch((error) => {
-							console.log(error.name)
+						if (isEmpty(service.name)) return
+
+						methodPromise.then(() => {
+							const end = performance.now()
+
+							data.results.push(
+								result({
+									id: nanoid(),
+									name: service.name,
+									status: caseStatus.passed,
+									timestamp: new Date(),
+									duration: end - start,
+									month_of_test: month,
+									browser,
+								}),
+							)
+						}).catch(() => {
+							const end = performance.now()
+
+							data.results.push(
+								result({
+									id: nanoid(),
+									name: service.name,
+									status: caseStatus.failed,
+									timestamp: new Date(),
+									duration: end - start,
+									month_of_test: month,
+									browser,
+								}),
+							)
 						})
 
 						methodPromises.push(methodPromise)
 					}
 				})
 
-				const flakyCases: Array<TDataResult> = []
-				;((runs: number) => {
-					for (let i = 0; i < runs; i++) {
-						service.cases.forEach((c: TDrowserServiceCase) => {
-							const start = performance.now()
-
-							if (typeof c === 'object') {
-								const method =
-									(builder as unknown as Record<string, Function>)[c.method]
-
-								if (typeof method === 'function') {
-									const methodPromise = method.call(builder)
-									let actualValue: unknown = null
-
-									methodPromise.then((v: unknown) => {
-										const assertFunction = assert[c.operator] as TAssertFunction
-										actualValue = v
-										assertFunction(actualValue, c.except)
-
-										const end = performance.now()
-
-										flakyCases.push(
-											result({
-												id: nanoid(),
-												name: c.method,
-												actual: actualValue,
-												exceptation: c.except,
-												status: caseStatus.passed,
-												timestamp: new Date(),
-												duration: end - start,
-												month_of_test: month,
-												type: dataResultType.object,
-												browser,
-											}),
-										)
-									})
-										.catch(() => {
-											const end = performance.now()
-
-											flakyCases.push(
-												result({
-													id: nanoid(),
-													name: c.method,
-													actual: actualValue,
-													exceptation: c.except,
-													status: caseStatus.failed,
-													timestamp: new Date(),
-													duration: end - start,
-													month_of_test: month,
-													type: dataResultType.object,
-													browser,
-												}),
-											)
-										})
-
-									methodPromises.push(methodPromise)
-								} else {
-									console.error(
-										`Method ${c.method} not found on builder object.`,
-									)
-								}
-							}
-
-							if (typeof c === 'function') {}
-						})
-					}
-				})(5)
+				const flakyCases = flakyRunner({
+					builder,
+					service,
+					browser,
+					result,
+					methodPromises,
+				})
 
 				const exportGeneratedFiles = () => {
 					if (exportPdf) exportGeneratedPdf({ results: data.results })
@@ -274,8 +209,8 @@ const driver = async (
 				}
 
 				Promise.all(methodPromises)
-					.then(() => exportGeneratedFiles())
-					.catch(() => exportGeneratedFiles()).finally(() => {
+					.finally(() => {
+						exportGeneratedFiles()
 						kia.succeed(`All tests completed on ${browser}`)
 						builder.quit()
 					})
