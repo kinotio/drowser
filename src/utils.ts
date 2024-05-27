@@ -62,11 +62,11 @@ const getCoverage = ({ results }: { results: Array<TDataResult> }) => {
 	return coveragePercentage
 }
 
-const getFlaky = ({ flakyTests }: { flakyTests: Array<TDataResult> }) => {
+const getFlaky = ({ results }: { results: Array<TDataResult> }) => {
 	const flakyTestCount = (() => {
 		const resultMap = new Map<string, any[]>()
 
-		flakyTests.forEach((result) => {
+		results.forEach((result) => {
 			const resultsForTest = resultMap.get(result.name) || []
 			resultsForTest.push(result.status)
 			resultMap.set(result.name, resultsForTest)

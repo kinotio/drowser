@@ -32,8 +32,7 @@ const exportGeneratedLog = (
 
 		const writeResult = () =>
 			results.forEach((r) => {
-				const logRow =
-					`[${r.timestamp}] - Test with ${r.name} is ${r.status} with actual value is ${r.actual} and excepted to be ${r.exceptation}`
+				const logRow = `[${r.timestamp}] - Test with ${r.name} is ${r.status}`
 				Deno.writeTextFile(logFilePath, `${logRow}\n`, { append: true })
 			})
 
@@ -63,15 +62,13 @@ const exportGeneratedPdf = (
 		const head = [[
 			'ID',
 			'NAME',
-			'ACTUAL',
-			'EXCEPTATION',
 			'STATUS',
 			'TIMESTAMP',
 		]]
 		const body = results.map((
 			r,
 			i,
-		) => [i + 1, r.name, r.actual, r.exceptation, r.status, r.timestamp])
+		) => [i + 1, r.name, r.status, r.timestamp])
 		const tableOpts = { head, body, theme: 'grid' }
 
 		pdf.setFontSize(18)
@@ -86,9 +83,8 @@ const exportGeneratedPdf = (
 }
 
 const exportJSONReport = (
-	{ results, flakyTests, browser }: {
+	{ results, browser }: {
 		results: Array<TDataResult>
-		flakyTests: Array<TDataResult>
 		browser: TDriverBrowser
 	},
 ): void => {
@@ -255,7 +251,7 @@ const exportJSONReport = (
 			time: new Date().toISOString(),
 			avg_duration: getAverageDuration({ results }),
 			coverage: getCoverage({ results }),
-			flaky: getFlaky({ flakyTests }),
+			flaky: getFlaky({ results }),
 			month_of_test: month,
 			browser,
 			cases: results,

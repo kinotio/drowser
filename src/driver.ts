@@ -22,7 +22,6 @@ import {
 	exportGeneratedPdf,
 	exportJSONReport,
 } from '@pkg/export.ts'
-import { flakyRunner } from '@pkg/runner.ts'
 
 const driver = async (
 	{ browser }: TDriverParams,
@@ -190,25 +189,17 @@ const driver = async (
 					}
 				})
 
-				const flakyCases = flakyRunner({
-					builder,
-					service,
-					browser,
-					result,
-					methodPromises,
-				})
-
 				const exportGeneratedFiles = () => {
 					if (exportPdf) exportGeneratedPdf({ results: data.results })
 					exportGeneratedLog({ results: data.results })
 					exportJSONReport({
 						results: data.results,
-						flakyTests: flakyCases,
 						browser,
 					})
 				}
 
 				Promise.all(methodPromises)
+					.catch((error) => reject(error))
 					.finally(() => {
 						exportGeneratedFiles()
 						kia.succeed(`All tests completed on ${browser}`)
