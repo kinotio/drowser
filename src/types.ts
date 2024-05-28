@@ -53,8 +53,6 @@ type TDriverBrowserCaseParams = {
 	by: TDriverServiceCaseParamsBy
 }
 
-export type TDrowserDriverAssert = typeof assert
-
 export type TDrowserServiceCase =
 	| {
 		name: string

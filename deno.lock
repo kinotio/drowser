@@ -1196,6 +1196,7 @@
     "https://deno.land/x/openai@v4.41.0/resources/shared.ts": "9bebeb0cc046505283141127639d83565cb36c981d7650ef00b832f497196298",
     "https://deno.land/x/openai@v4.41.0/streaming.ts": "04f85a25d5143758473521223e58003a59cc617fa57755e5a62ba96741cb50ef",
     "https://deno.land/x/openai@v4.41.0/uploads.ts": "33857c766326193dd038ca77382f3b361ef92038a938de312f3f95aa77531a46",
-    "https://deno.land/x/openai@v4.41.0/version.ts": "8aa10fe86a8d4358b31478fdf38003f0e8cef54ed498ebe551a7af32f7ab88e6"
+    "https://deno.land/x/openai@v4.41.0/version.ts": "8aa10fe86a8d4358b31478fdf38003f0e8cef54ed498ebe551a7af32f7ab88e6",
+    "https://deno.land/x/promisify@v0.1.0/mod.ts": "f7d9fa809a7a641ff8b3a8d0e8c8a46d74a6bcc5b48fff0e863e75c40c30ba11"
   }
 }

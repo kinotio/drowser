@@ -169,7 +169,11 @@ const driver = async (
 									browser,
 								}),
 							)
-						}).catch(() => {
+						}).catch((error) => {
+							console.error(
+								`Error occurred in test case "${service.name}":`,
+								error,
+							)
 							const end = performance.now()
 
 							data.results.push(
