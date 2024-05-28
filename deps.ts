@@ -10,7 +10,6 @@ import { isEmpty } from 'lodash'
 import { join } from 'mod'
 import { existsSync } from 'fs'
 import Kia from 'kia'
-import { createWriteStream } from 'node-fs'
 import { readJson, readJsonSync, writeJson, writeJsonSync } from 'jsonfile'
 import { nanoid } from 'nanoid'
 import * as assert from 'assert'
@@ -20,7 +19,6 @@ export {
 	Browser,
 	Builder,
 	By,
-	createWriteStream,
 	existsSync,
 	isEmpty,
 	join,

@@ -12,7 +12,6 @@
     "mod": "https://deno.land/std@0.223.0/path/mod.ts",
     "assert": "https://deno.land/std@0.224.0/assert/mod.ts",
     "fs": "https://deno.land/std@0.224.0/fs/mod.ts",
-    "node-fs": "https://deno.land/std@0.139.0/node/fs.ts",
 
     "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
     "jsonfile": "https://deno.land/x/jsonfile@1.0.0/mod.ts",
