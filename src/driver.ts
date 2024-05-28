@@ -1,6 +1,5 @@
 import { assert, Builder, By, isEmpty, join, Kia, nanoid } from '@deps'
 import type {
-	TAssertFunction,
 	TCaseFn,
 	TConfigJSON,
 	TData,
@@ -10,7 +9,11 @@ import type {
 	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
-import { getCurrentMonth, isValidHttpUrl, result } from '@pkg/utils.ts'
+import {
+	getCurrentMonth,
+	isValidHttpUrl,
+	result as resultData,
+} from '@pkg/utils.ts'
 import {
 	caseStatus,
 	driverBrowserList,
@@ -72,7 +75,7 @@ const driver = async (
 		)
 			.build() as TDrowserThenableWebDriver
 
-		const service = { name: '', cases: [] }
+		const service = { case_name: '', cases: [] }
 
 		const kia = new Kia('Processing your tests')
 		kia.start()
@@ -89,59 +92,6 @@ const driver = async (
 				const methodPromises: Promise<void>[] = []
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
-					const start = performance.now()
-
-					if (typeof c === 'object') {
-						const method =
-							(builder as unknown as Record<string, Function>)[c.method]
-
-						if (typeof method === 'function') {
-							const methodPromise = method.call(builder)
-							let actualValue: unknown = null
-
-							methodPromise.then((v: unknown) => {
-								const assertFunction = assert[c.operator] as TAssertFunction
-								actualValue = v
-								assertFunction(actualValue, c.except)
-
-								const end = performance.now()
-
-								data.results.push(
-									result({
-										id: nanoid(),
-										name: c.name,
-										status: caseStatus.passed,
-										timestamp: new Date(),
-										duration: end - start,
-										month_of_test: month,
-										browser,
-									}),
-								)
-							})
-								.catch(() => {
-									const end = performance.now()
-
-									data.results.push(
-										result({
-											id: nanoid(),
-											name: c.name,
-											status: caseStatus.failed,
-											timestamp: new Date(),
-											duration: end - start,
-											month_of_test: month,
-											browser,
-										}),
-									)
-								})
-
-							methodPromises.push(methodPromise)
-						} else {
-							reject(
-								`Method ${c.method} not found on builder object.`,
-							)
-						}
-					}
-
 					if (typeof c === 'function') {
 						const omitedBuilder =
 							builder as unknown as TDriverServiceCaseParamsBuilder
@@ -152,43 +102,7 @@ const driver = async (
 						}
 						const method = c as TCaseFn
 						const methodPromise = method(megaBuilder)
-
-						if (isEmpty(service.name)) return
-
-						methodPromise.then(() => {
-							const end = performance.now()
-
-							data.results.push(
-								result({
-									id: nanoid(),
-									name: service.name,
-									status: caseStatus.passed,
-									timestamp: new Date(),
-									duration: end - start,
-									month_of_test: month,
-									browser,
-								}),
-							)
-						}).catch((error) => {
-							console.error(
-								`Error occurred in test case "${service.name}":`,
-								error,
-							)
-							const end = performance.now()
-
-							data.results.push(
-								result({
-									id: nanoid(),
-									name: service.name,
-									status: caseStatus.failed,
-									timestamp: new Date(),
-									duration: end - start,
-									month_of_test: month,
-									browser,
-								}),
-							)
-						})
-
+						if (isEmpty(service.case_name)) return
 						methodPromises.push(methodPromise)
 					}
 				})
@@ -202,7 +116,39 @@ const driver = async (
 					})
 				}
 
-				Promise.all(methodPromises)
+				Promise.allSettled(methodPromises)
+					.then((results) => {
+						const start = performance.now()
+						results.forEach((result) => {
+							if (result.status === 'fulfilled') {
+								const end = performance.now()
+								data.results.push(
+									resultData({
+										id: nanoid(),
+										name: service.case_name,
+										status: caseStatus.passed,
+										timestamp: new Date(),
+										duration: end - start,
+										month_of_test: month,
+										browser,
+									}),
+								)
+							} else {
+								const end = performance.now()
+								data.results.push(
+									resultData({
+										id: nanoid(),
+										name: service.case_name,
+										status: caseStatus.failed,
+										timestamp: new Date(),
+										duration: end - start,
+										month_of_test: month,
+										browser,
+									}),
+								)
+							}
+						})
+					})
 					.catch((error) => reject(error))
 					.finally(() => {
 						exportGeneratedFiles()
