@@ -75,7 +75,7 @@ const driver = async (
 		)
 			.build() as TDrowserThenableWebDriver
 
-		const service = { case_name: '', cases: [] }
+		const service = { case_name: null, cases: [] }
 
 		const kia = new Kia('Processing your tests')
 		kia.start()
@@ -102,7 +102,6 @@ const driver = async (
 						}
 						const method = c as TCaseFn
 						const methodPromise = method(megaBuilder)
-						if (isEmpty(service.case_name)) return
 						methodPromises.push(methodPromise)
 					}
 				})
