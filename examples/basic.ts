@@ -2,32 +2,20 @@ import { driver } from '../mod.ts'
 
 driver({ browser: 'chrome' }).then(({ service }) => {
 	service.cases = [
-		{
-			name: 'Verify Title',
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
 		async ({ builder, assert }) => {
-			service.name = 'Verify Title from function'
+			service.case_name = 'Verify Title'
 			const title = await builder.getTitle()
-			assert.assertEquals(title, 'Drowsers')
+			assert.assertEquals(title, 'Drowser')
 		},
 	]
 }).catch((error) => console.log(error))
 
 driver({ browser: 'firefox' }).then(({ service }) => {
 	service.cases = [
-		{
-			name: 'Verify Title',
-			method: 'getTitle',
-			operator: 'assertEquals',
-			except: 'Drowser',
-		},
 		async ({ builder, assert }) => {
-			service.name = 'Verify Title from function'
+			service.case_name = 'Verify Title'
 			const title = await builder.getTitle()
-			assert.assertEquals(title, 'Drowsers')
+			assert.assertEquals(title, 'Drowser')
 		},
 	]
 }).catch((error) => console.log(error))
