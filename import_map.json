@@ -7,15 +7,14 @@
     "jspdf": "npm:jspdf",
     "jspdf-autotable": "npm:jspdf-autotable",
 
-    "assert": "jsr:@std/assert",
-
     "lodash": "https://cdn.skypack.dev/lodash-es?dts",
 
     "mod": "https://deno.land/std@0.223.0/path/mod.ts",
-    "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
+    "assert": "https://deno.land/std@0.224.0/assert/mod.ts",
     "fs": "https://deno.land/std@0.224.0/fs/mod.ts",
     "node-fs": "https://deno.land/std@0.139.0/node/fs.ts",
-    "openai": "https://deno.land/x/openai@v4.41.0/mod.ts",
+
+    "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
     "jsonfile": "https://deno.land/x/jsonfile@1.0.0/mod.ts",
     "nanoid": "https://deno.land/x/nanoid@v3.0.0/mod.ts"
   }
