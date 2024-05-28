@@ -135,50 +135,7 @@ const result = (
 	}
 }
 
-const extractFromErrorMessage = (message: string) => {
-	const extracted = {} as Record<string, any>
-
-	const removeAnsiCodes = (str: string): string => {
-		return str.replace(/\x1b\[[0-9;]*m/g, '')
-	}
-	const lines = message.split('\n')
-	const cleanedLines = lines.map(removeAnsiCodes)
-	const actualLine = cleanedLines.find((line: string) => line.startsWith('-'))
-	const expectedLine = cleanedLines.find((line: string) => line.startsWith('+'))
-
-	if (actualLine && expectedLine) {
-		const actual = actualLine?.replace('-   ', '').trim()
-		const expected = expectedLine?.replace('+   ', '').trim()
-
-		extracted.basic = { actual, expected }
-	}
-
-	const pattern = /Unable to locate element: ({.*?})/
-
-	const match = message.match(pattern)
-
-	if (match) {
-		const errorMessagePart = message.match(
-			/no such element: (Unable to locate element:)/,
-		)
-		const errorMessage = errorMessagePart ? errorMessagePart[1] : ''
-
-		const jsonString = match[1]
-		const jsonObject = JSON.parse(jsonString)
-
-		const result = {
-			error: errorMessage,
-			...jsonObject,
-		}
-
-		extracted.jsonObject = result
-	}
-
-	return extracted
-}
-
 export {
-	extractFromErrorMessage,
 	generateFileName,
 	getAverageDuration,
 	getCoverage,

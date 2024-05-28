@@ -31,7 +31,7 @@ You need to create a drowser.json in root directory and define some configuratio
 
 ```json
 {
-  "url": "http://url_of_the_platform_need_to_tested",
+  "url": "http://url_of_the_platform_need_to_be_tested",
   "exportPdf": false
 }
 ```

@@ -14,7 +14,7 @@ export type TConfigJSON = {
 
 export type TDataResult = {
 	id: string
-	name: string
+	name: string | null
 	status: string
 	timestamp: Date
 	duration: number
@@ -54,7 +54,7 @@ export type TDrowserServiceCase = (
 ) => void
 
 export type TDrowserService = {
-	case_name: string
+	case_name: string | null
 	cases: Array<
 		| TDrowserServiceCase
 		| ((
