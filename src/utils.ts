@@ -1,3 +1,4 @@
+import { nanoid } from '@deps'
 import { TDataResult, TIsValidHttpUrlParams } from '@pkg/types.ts'
 import { caseStatus } from '@pkg/constants.ts'
 
@@ -115,22 +116,19 @@ const getCurrentMonth = ({ type = 'long' }: { type: 'long' | 'short' }) => {
 
 const result = (
 	{
-		id,
 		name,
 		status,
 		duration,
-		timestamp,
-		month_of_test,
 		browser,
 	}: TDataResult,
 ) => {
 	return {
-		id,
+		id: nanoid(),
 		name,
 		status,
-		timestamp,
+		timestamp: new Date(),
 		duration,
-		month_of_test,
+		month_of_test: getCurrentMonth({ type: 'short' }),
 		browser,
 	}
 }
