@@ -1,6 +1,6 @@
-import { nanoid } from '@deps'
-import { TDataResult, TIsValidHttpUrlParams } from '@pkg/types.ts'
-import { caseStatus } from '@pkg/constants.ts'
+import { nanoid } from '../deps.ts'
+import { TDataResult, TIsValidHttpUrlParams } from './types.ts'
+import { caseStatus } from './constants.ts'
 
 const isValidHttpUrl = ({ url }: TIsValidHttpUrlParams): boolean => {
 	try {

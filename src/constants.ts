@@ -1,4 +1,4 @@
-import { Browser } from '@deps'
+import { Browser } from '../deps.ts'
 
 const driverBrowserList: Array<string> = ['chrome', 'firefox', 'safari', 'edge']
 
