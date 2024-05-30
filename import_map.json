@@ -4,8 +4,6 @@
     "@deps": "./deps.ts",
 
     "selenium-webdriver": "npm:selenium-webdriver",
-    "jspdf": "npm:jspdf",
-    "jspdf-autotable": "npm:jspdf-autotable",
 
     "lodash": "https://cdn.skypack.dev/lodash-es?dts",
 

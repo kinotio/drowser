@@ -19,4 +19,4 @@ jobs:
         with:
           deno-version: ${{ matrix.deno-version }}
       - name: Run Lint
-        run: deno lint
+        run: deno lint src/
