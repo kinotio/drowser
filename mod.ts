@@ -1,3 +1,2 @@
-import driver from '@pkg/driver.ts'
-
+import driver from './src/driver.ts'
 export { driver }

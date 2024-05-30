@@ -1,5 +1,5 @@
-import { assert } from '@deps'
-import type { By, ThenableWebDriver } from '@deps'
+import { assert } from '../deps.ts'
+import type { By, ThenableWebDriver } from '../deps.ts'
 
 export type TDriverParams = {
 	browser: TDriverBrowser

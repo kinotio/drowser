@@ -6,12 +6,15 @@ import {
 	readJsonSync,
 	writeJson,
 	writeJsonSync,
-} from '@deps'
+} from '../deps.ts'
 import {
 	generateFileName,
+	getAverageDuration,
+	getCoverage,
 	getCurrentMonth,
+	getFlaky,
 	updateOrCreate,
-} from '@pkg/utils.ts'
+} from './utils.ts'
 import {
 	DataPoint,
 	MonthCount,
@@ -19,8 +22,7 @@ import {
 	TDataResult,
 	TDriverBrowser,
 	TJSON,
-} from '@pkg/types.ts'
-import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
+} from './types.ts'
 
 const exportGeneratedLog = (
 	{ results }: { results: Array<TDataResult> },

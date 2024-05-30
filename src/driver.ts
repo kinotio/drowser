@@ -1,4 +1,4 @@
-import { assert, Builder, By, isEmpty, join, Kia } from '@deps'
+import { assert, Builder, By, isEmpty, join, Kia } from '../deps.ts'
 import type {
 	TCaseFn,
 	TConfigJSON,
@@ -8,15 +8,15 @@ import type {
 	TDrowserDriverResponse,
 	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
-} from '@pkg/types.ts'
-import { isValidHttpUrl, result as resultData } from '@pkg/utils.ts'
+} from './types.ts'
+import { isValidHttpUrl, result as resultData } from './utils.ts'
 import {
 	caseStatus,
 	driverBrowserList,
 	driverBrowsers,
 	seleniumExceptions,
-} from '@pkg/constants.ts'
-import { exportGeneratedLog, exportJSONReport } from '@pkg/export.ts'
+} from './constants.ts'
+import { exportGeneratedLog, exportJSONReport } from './export.ts'
 
 const driver = async ({
 	browser,
@@ -68,9 +68,9 @@ const driver = async ({
 		builder
 			.get(data.url)
 			.then(() => resolve({ service }))
-			.catch((err) => {
+			.catch((error: Record<string, string>) => {
 				kia.fail('An error occurred while running tests')
-				reject(seleniumExceptions[err.name])
+				reject(seleniumExceptions[error.name])
 			})
 			.finally(() => {
 				const methodPromises: Promise<void>[] = []

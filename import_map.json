@@ -1,18 +1,1 @@
-{
-  "imports": {
-    "@pkg/": "./src/",
-    "@deps": "./deps.ts",
-
-    "selenium-webdriver": "npm:selenium-webdriver",
-
-    "lodash": "https://cdn.skypack.dev/lodash-es?dts",
-
-    "mod": "https://deno.land/std@0.223.0/path/mod.ts",
-    "assert": "https://deno.land/std@0.224.0/assert/mod.ts",
-    "fs": "https://deno.land/std@0.224.0/fs/mod.ts",
-
-    "kia": "https://deno.land/x/kia@0.4.1/mod.ts",
-    "jsonfile": "https://deno.land/x/jsonfile@1.0.0/mod.ts",
-    "nanoid": "https://deno.land/x/nanoid@v3.0.0/mod.ts"
-  }
-}
+{}
