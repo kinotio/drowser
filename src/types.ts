@@ -13,12 +13,12 @@ export type TConfigJSON = {
 }
 
 export type TDataResult = {
-	id: string
-	name: string | null
+	id?: string
+	name: string
 	status: string
-	timestamp: Date
+	timestamp?: Date
 	duration: number
-	month_of_test: string
+	month_of_test?: string
 	browser: TDriverBrowser
 }
 
@@ -49,18 +49,15 @@ type TDriverBrowserCaseParams = {
 	by: TDriverServiceCaseParamsBy
 }
 
-export type TDrowserServiceCase = (
-	params: TDriverBrowserCaseParams,
-) => void
+export type TDrowserServiceCase = {
+	name: string
+	case: (
+		params: TDriverBrowserCaseParams,
+	) => void
+}
 
 export type TDrowserService = {
-	case_name: string | null
-	cases: Array<
-		| TDrowserServiceCase
-		| ((
-			params: TDriverBrowserCaseParams,
-		) => void)
-	>
+	cases: Array<TDrowserServiceCase>
 }
 
 export type TCaseFn = (

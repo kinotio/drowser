@@ -1,4 +1,4 @@
-import { assert, Builder, By, isEmpty, join, Kia, nanoid } from '@deps'
+import { assert, Builder, By, isEmpty, join, Kia } from '@deps'
 import type {
 	TCaseFn,
 	TConfigJSON,
@@ -9,11 +9,7 @@ import type {
 	TDrowserServiceCase,
 	TDrowserThenableWebDriver,
 } from '@pkg/types.ts'
-import {
-	getCurrentMonth,
-	isValidHttpUrl,
-	result as resultData,
-} from '@pkg/utils.ts'
+import { isValidHttpUrl, result as resultData } from '@pkg/utils.ts'
 import {
 	caseStatus,
 	driverBrowserList,
@@ -26,9 +22,9 @@ import {
 	exportJSONReport,
 } from '@pkg/export.ts'
 
-const driver = async (
-	{ browser }: TDriverParams,
-): Promise<TDrowserDriverResponse> => {
+const driver = async ({
+	browser,
+}: TDriverParams): Promise<TDrowserDriverResponse> => {
 	const data: TData = { url: '', results: [] }
 	const configPath = join(Deno.cwd(), 'drowser.json')
 
@@ -47,9 +43,7 @@ const driver = async (
 		data.url = url
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
-			throw new Error(
-				'An error occurred, please create drowser.json file.',
-			)
+			throw new Error('An error occurred, please create drowser.json file.')
 		}
 
 		if (!(error instanceof Deno.errors.NotFound)) {
@@ -60,27 +54,24 @@ const driver = async (
 	}
 
 	if (isEmpty(browser) || !driverBrowserList.includes(browser)) {
-		throw new Error(
-			'An error occurred, please provide a valid browser driver',
-		)
+		throw new Error('An error occurred, please provide a valid browser driver')
 	}
 
 	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
-		const month = getCurrentMonth({ type: 'short' })
-
-		const builder = new Builder().forBrowser(
-			driverBrowsers[browser],
-		)
+		const builder = new Builder()
+			.forBrowser(driverBrowsers[browser])
 			.build() as TDrowserThenableWebDriver
 
-		const service = { case_name: null, cases: [] }
+		const service = { cases: [] }
 
 		const kia = new Kia('Processing your tests')
 		kia.start()
 
-		builder.get(data.url).then(() => resolve({ service }))
+		builder
+			.get(data.url)
+			.then(() => resolve({ service }))
 			.catch((err) => {
 				kia.fail('An error occurred while running tests')
 				reject(seleniumExceptions[err.name])
@@ -92,7 +83,7 @@ const driver = async (
 				const methodPromises: Promise<void>[] = []
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
-					if (typeof c === 'function') {
+					if (typeof c === 'object') {
 						const omitedBuilder =
 							builder as unknown as TDriverServiceCaseParamsBuilder
 						const megaBuilder = {
@@ -100,8 +91,36 @@ const driver = async (
 							assert,
 							by: By,
 						}
-						const method = c as TCaseFn
+						const method = c.case as TCaseFn
 						const methodPromise = method(megaBuilder)
+
+						const start = performance.now()
+
+						methodPromise
+							.then(() => {
+								const end = performance.now()
+								data.results.push(
+									resultData({
+										name: c.name,
+										status: caseStatus.passed,
+										timestamp: new Date(),
+										duration: end - start,
+										browser,
+									}),
+								)
+							})
+							.catch(() => {
+								const end = performance.now()
+								data.results.push(
+									resultData({
+										name: c.name,
+										status: caseStatus.failed,
+										duration: end - start,
+										browser,
+									}),
+								)
+							})
+
 						methodPromises.push(methodPromise)
 					}
 				})
@@ -116,38 +135,6 @@ const driver = async (
 				}
 
 				Promise.allSettled(methodPromises)
-					.then((results) => {
-						const start = performance.now()
-						results.forEach((result) => {
-							if (result.status === 'fulfilled') {
-								const end = performance.now()
-								data.results.push(
-									resultData({
-										id: nanoid(),
-										name: service.case_name,
-										status: caseStatus.passed,
-										timestamp: new Date(),
-										duration: end - start,
-										month_of_test: month,
-										browser,
-									}),
-								)
-							} else {
-								const end = performance.now()
-								data.results.push(
-									resultData({
-										id: nanoid(),
-										name: service.case_name,
-										status: caseStatus.failed,
-										timestamp: new Date(),
-										duration: end - start,
-										month_of_test: month,
-										browser,
-									}),
-								)
-							}
-						})
-					})
 					.catch((error) => reject(error))
 					.finally(() => {
 						exportGeneratedFiles()
