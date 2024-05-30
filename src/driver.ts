@@ -91,7 +91,7 @@ const driver = async ({
 							assert,
 							by: By,
 						}
-						const method = c.case as TCaseFn
+						const method = c.fn as TCaseFn
 						const methodPromise = method(megaBuilder)
 
 						const start = performance.now()
