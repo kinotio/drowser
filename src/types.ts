@@ -51,7 +51,7 @@ type TDriverBrowserCaseParams = {
 
 export type TDrowserServiceCase = {
 	name: string
-	case: (
+	fn: (
 		params: TDriverBrowserCaseParams,
 	) => void
 }

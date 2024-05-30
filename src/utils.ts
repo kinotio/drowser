@@ -65,7 +65,7 @@ const getCoverage = ({ results }: { results: Array<TDataResult> }) => {
 
 const getFlaky = ({ results }: { results: Array<TDataResult> }) => {
 	const flakyTestCount = (() => {
-		const resultMap = new Map<string, any[]>()
+		const resultMap = new Map<string, unknown[]>()
 
 		results.forEach((result) => {
 			const resultsForTest = resultMap.get(result.name) || []
@@ -91,9 +91,9 @@ const getFlaky = ({ results }: { results: Array<TDataResult> }) => {
 }
 
 const updateOrCreate = (
-	arr: any[],
+	arr: Array<Record<string, unknown>>,
 	key: string,
-	newObj: any,
+	newObj: Record<string, unknown>,
 	month: string,
 ) => {
 	if (Array.isArray(arr) && arr.length > 0) {

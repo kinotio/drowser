@@ -16,11 +16,7 @@ import {
 	driverBrowsers,
 	seleniumExceptions,
 } from '@pkg/constants.ts'
-import {
-	exportGeneratedLog,
-	exportGeneratedPdf,
-	exportJSONReport,
-} from '@pkg/export.ts'
+import { exportGeneratedLog, exportJSONReport } from '@pkg/export.ts'
 
 const driver = async ({
 	browser,
@@ -77,9 +73,6 @@ const driver = async ({
 				reject(seleniumExceptions[err.name])
 			})
 			.finally(() => {
-				const { exportPdf }: TConfigJSON = JSON.parse(
-					Deno.readTextFileSync(configPath),
-				)
 				const methodPromises: Promise<void>[] = []
 
 				service.cases.forEach((c: TDrowserServiceCase) => {
@@ -91,7 +84,7 @@ const driver = async ({
 							assert,
 							by: By,
 						}
-						const method = c.case as TCaseFn
+						const method = c.fn as TCaseFn
 						const methodPromise = method(megaBuilder)
 
 						const start = performance.now()
@@ -126,7 +119,6 @@ const driver = async ({
 				})
 
 				const exportGeneratedFiles = () => {
-					if (exportPdf) exportGeneratedPdf({ results: data.results })
 					exportGeneratedLog({ results: data.results })
 					exportJSONReport({
 						results: data.results,

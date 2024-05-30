@@ -2,7 +2,6 @@ import {
 	existsSync,
 	isEmpty,
 	join,
-	jsPDF,
 	nanoid,
 	readJsonSync,
 	writeJson,
@@ -13,7 +12,14 @@ import {
 	getCurrentMonth,
 	updateOrCreate,
 } from '@pkg/utils.ts'
-import { TDataResult, TDriverBrowser, TJSON } from '@pkg/types.ts'
+import {
+	DataPoint,
+	MonthCount,
+	MonthValue,
+	TDataResult,
+	TDriverBrowser,
+	TJSON,
+} from '@pkg/types.ts'
 import { getAverageDuration, getCoverage, getFlaky } from '@pkg/utils.ts'
 
 const exportGeneratedLog = (
@@ -42,43 +48,6 @@ const exportGeneratedLog = (
 		}
 
 		Deno.create(logFilePath).then(() => writeResult())
-	}
-}
-
-const exportGeneratedPdf = (
-	{ results }: { results: Array<TDataResult> },
-): void => {
-	const dirPath = join(Deno.cwd(), 'drowser/pdfs')
-	const asDir = existsSync(dirPath)
-
-	if (!asDir) Deno.mkdirSync(dirPath, { recursive: true })
-
-	const pdfFilename = generateFileName('drowser_pdf', 'pdf')
-	const pdfFilePath = `${dirPath}/${pdfFilename}`
-
-	if (Array.isArray(results) && results.length > 0) {
-		const pdf = new jsPDF()
-		const pdfCopy = Object.assign({}, pdf) as any
-		const head = [[
-			'ID',
-			'NAME',
-			'STATUS',
-			'TIMESTAMP',
-		]]
-		const body = results.map((
-			r,
-			i,
-		) => [i + 1, r.name, r.status, r.timestamp])
-		const tableOpts = { head, body, theme: 'grid' }
-
-		pdf.setFontSize(18)
-		pdf.text('Drowser Reports', 11, 8)
-		pdf.setFontSize(11)
-		pdf.setTextColor(100)
-
-		pdfCopy.autoTable(tableOpts)
-
-		pdf.save(pdfFilePath)
 	}
 }
 
@@ -173,27 +142,30 @@ const exportJSONReport = (
 			graphs: {
 				total_tests: [
 					{
-						id: 'years',
+						id: 'monthly_data',
 						data: jsonData?.drowser?.metrics?.graphs?.total_tests[0]
-							.data as any ?? [],
+							.data as DataPoint[] ?? [],
 					},
 				],
 				passing_tests:
-					jsonData?.drowser?.metrics?.graphs?.passing_tests as any ?? [],
-				failed_tests: jsonData?.drowser?.metrics?.graphs?.failed_tests as any ??
-					[],
+					jsonData?.drowser?.metrics?.graphs?.passing_tests as MonthCount[] ??
+						[],
+				failed_tests:
+					jsonData?.drowser?.metrics?.graphs?.failed_tests as MonthCount[] ??
+						[],
 				test_coverage:
-					jsonData?.drowser?.metrics?.graphs?.test_coverage as any ?? [],
+					jsonData?.drowser?.metrics?.graphs?.test_coverage as MonthCount[] ??
+						[],
 				avg_test_duration: jsonData?.drowser?.metrics?.graphs
-					?.avg_test_duration as any ?? [],
+					?.avg_test_duration as MonthCount[] ?? [],
 				flaky_tests: jsonData?.drowser?.metrics?.graphs
-					?.flaky_tests as any ?? [],
+					?.flaky_tests as MonthValue[] ?? [],
 			},
 		}
 
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs?.total_tests[0]?.data as Array<
-				Record<string, any>
+				Record<string, unknown>
 			>,
 			'x',
 			{ x: month, y: totalTests.length },
@@ -202,7 +174,7 @@ const exportJSONReport = (
 
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs?.passing_tests as Array<
-				Record<string, any>
+				Record<string, unknown>
 			>,
 			'name',
 			{ name: month, count: groupByStatus?.passed?.length },
@@ -211,7 +183,7 @@ const exportJSONReport = (
 
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs?.failed_tests as Array<
-				Record<string, any>
+				Record<string, unknown>
 			>,
 			'name',
 			{ name: month, count: groupByStatus?.failed?.length },
@@ -220,7 +192,7 @@ const exportJSONReport = (
 
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs?.test_coverage as Array<
-				Record<string, any>
+				Record<string, unknown>
 			>,
 			'name',
 			{ name: month, count: getCoverage({ results: totalTests }) },
@@ -229,7 +201,7 @@ const exportJSONReport = (
 
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs?.avg_test_duration as Array<
-				Record<string, any>
+				Record<string, unknown>
 			>,
 			'name',
 			{ name: month, count: getAverageDuration({ results: totalTests }) },
@@ -239,7 +211,7 @@ const exportJSONReport = (
 		updateOrCreate(
 			jsonData?.drowser?.metrics?.graphs
 				?.flaky_tests as Array<
-					Record<string, any>
+					Record<string, unknown>
 				>,
 			'id',
 			{ id: month, value: flakyTestsCount },
@@ -264,4 +236,4 @@ const exportJSONReport = (
 	}
 }
 
-export { exportGeneratedLog, exportGeneratedPdf, exportJSONReport }
+export { exportGeneratedLog, exportJSONReport }

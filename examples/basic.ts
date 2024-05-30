@@ -5,14 +5,14 @@ driver({ browser: 'chrome' })
 		service.cases = [
 			{
 				name: 'Verify Failed Title',
-				case: async ({ builder, assert }) => {
+				fn: async ({ builder, assert }) => {
 					const title = await builder.getTitle()
 					assert.assertEquals(title, 'Drowsers')
 				},
 			},
 			{
 				name: 'Verify Title',
-				case: async ({ builder, assert }) => {
+				fn: async ({ builder, assert }) => {
 					const title = await builder.getTitle()
 					assert.assertEquals(title, 'Drowser')
 				},
@@ -26,14 +26,14 @@ driver({ browser: 'firefox' })
 		service.cases = [
 			{
 				name: 'Verify Failed Title',
-				case: async ({ builder, assert }) => {
+				fn: async ({ builder, assert }) => {
 					const title = await builder.getTitle()
 					assert.assertEquals(title, 'Drowsers')
 				},
 			},
 			{
 				name: 'Verify Title',
-				case: async ({ builder, assert }) => {
+				fn: async ({ builder, assert }) => {
 					const title = await builder.getTitle()
 					assert.assertEquals(title, 'Drowser')
 				},
