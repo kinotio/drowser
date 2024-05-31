@@ -85,7 +85,7 @@ driver({ browser: "firefox" })
 
 ## Drowser Studio
 
-Each test case is saved inside the `drowser-reports.json` file , and this file is exploitable inside the `Drowser Studio` who is developed by the `Kinotio` Team in this [repo](https://github.com/kinotio/drowser) , who is open-source
+Each test case is saved inside the `drowser-reports.json` file , and this file is exploitable inside the `Drowser Studio` who is developed by the `Kinotio` Team in this [repo](https://github.com/kinotio/drowser-studio) , who is open-source
 
 You can import this reports inside of the studio to visualize all the metrics for main cases or each test case
 
