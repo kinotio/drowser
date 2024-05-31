@@ -6,10 +6,10 @@
   />
 </p>
 
-![build](https://github.com/iamando/drowser/workflows/build/badge.svg)
+![build](https://github.com/andostronaut/drowser/workflows/build/badge.svg)
 [![deno module](https://shield.deno.dev/x/drowser)](https://deno.land/x/drowser)
 ![deno compatibility](https://shield.deno.dev/deno/^1.40.2)
-![license](https://img.shields.io/github/license/iamando/drowser?color=success)
+![license](https://img.shields.io/github/license/andostronaut/drowser?color=success)
 
 A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
