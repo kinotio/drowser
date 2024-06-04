@@ -2,8 +2,8 @@
 import { Browser, Builder, By } from 'npm:selenium-webdriver'
 import type { By as TBy, ThenableWebDriver } from 'npm:selenium-webdriver'
 
-// @deno-types="https://cdn.skypack.dev/@types/lodash?dts"
-import { isEmpty } from 'https://cdn.skypack.dev/lodash-es?dts'
+// @deno-types="https://cdn.skypack.dev/@types/lodash@4.17.4?dts"
+import { isEmpty } from 'https://cdn.skypack.dev/lodash-es@4.17.21?dts'
 
 import { join } from 'https://deno.land/std@0.224.0/path/mod.ts'
 import { existsSync } from 'https://deno.land/std@0.224.0/fs/mod.ts'
