@@ -1,5 +1,5 @@
 import { assert } from '../deps.ts'
-import { isValidHttpUrl, getTimestamp, generateFileName } from '../src/utils.ts'
+import { isValidHttpUrl, getTimestamp, generateFileName, humanizeDuration } from '../src/utils.ts'
 
 Deno.test('isValidHttpUrl should return true for valid HTTP URLs', () => {
 	assert.assertEquals(isValidHttpUrl({ url: 'http://example.com' }), true)
@@ -47,3 +47,58 @@ Deno.test("generateFileName should handle empty prefix", () => {
   const timestamp = /^_\d{4}-\d{2}-\d{2}\.log$/;
   assert.assert(generateFileName("", "log").match(timestamp));
 });
+
+Deno.test(
+  "humanizeDuration should return correct duration string for 0 milliseconds",
+  () => {
+    assert.assertEquals(humanizeDuration(0), "0s");
+  }
+);
+
+Deno.test(
+  "humanizeDuration should return correct duration string for less than a minute",
+  () => {
+    assert.assertEquals(humanizeDuration(5000), "5s");
+    assert.assertEquals(humanizeDuration(59000), "59s");
+  }
+);
+
+Deno.test(
+  "humanizeDuration should return correct duration string for minutes",
+  () => {
+    assert.assertEquals(humanizeDuration(60000), "1m");
+    assert.assertEquals(humanizeDuration(120000), "2m");
+  }
+);
+
+Deno.test(
+  "humanizeDuration should return correct duration string for hours",
+  () => {
+    assert.assertEquals(humanizeDuration(3600000), "1h");
+    assert.assertEquals(humanizeDuration(7200000), "2h");
+  }
+);
+
+Deno.test(
+  "humanizeDuration should return correct duration string for days",
+  () => {
+    assert.assertEquals(humanizeDuration(86400000), "1d");
+    assert.assertEquals(humanizeDuration(172800000), "2d");
+  }
+);
+
+Deno.test(
+  "humanizeDuration should return correct duration string for combined units",
+  () => {
+    assert.assertEquals(humanizeDuration(90000), "1m 30s");
+    assert.assertEquals(
+      humanizeDuration(7200000 + 120000),
+      "2h 2m"
+    );
+    assert.assertEquals(
+      humanizeDuration(172800000 + 7200000 + 120000),
+      "2d 2h 2m"
+    );
+  }
+);
+
