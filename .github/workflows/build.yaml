@@ -21,4 +21,4 @@ jobs:
       - name: Run Lint
         run: deno lint src/
       - name: Run Tests
-        run: deno test -A tests/
+        run: deno test -A mod_test.ts
