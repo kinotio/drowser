@@ -1,5 +1,5 @@
 import { assert } from '../deps.ts'
-import { isValidHttpUrl } from '../src/utils.ts'
+import { isValidHttpUrl, getTimestamp } from '../src/utils.ts'
 
 Deno.test('isValidHttpUrl should return true for valid HTTP URLs', () => {
 	assert.assertEquals(isValidHttpUrl({ url: 'http://example.com' }), true)
@@ -16,3 +16,20 @@ Deno.test('isValidHttpUrl should return false for invalid URLs', () => {
 Deno.test('isValidHttpUrl should handle empty', () => {
 	assert.assertEquals(isValidHttpUrl({ url: '' }), false)
 })
+
+Deno.test(
+  'getTimestamp should return "log" timestamp format for default type',
+  () => {
+    const timestamp = getTimestamp({ type: 'log'});
+    assert.assert(timestamp.match(/^\d{4}-\d{2}-\d{2}$/));
+  }
+);
+
+Deno.test(
+  'getTimestamp should return "pdf" timestamp format for type "pdf"',
+  () => {
+    const timestamp = getTimestamp({ type: "pdf" });
+    assert.assert(timestamp.match(/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}$/));
+  }
+);
+
