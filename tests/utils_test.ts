@@ -1,5 +1,5 @@
 import { assert } from '../deps.ts'
-import { isValidHttpUrl, getTimestamp } from '../src/utils.ts'
+import { isValidHttpUrl, getTimestamp, generateFileName } from '../src/utils.ts'
 
 Deno.test('isValidHttpUrl should return true for valid HTTP URLs', () => {
 	assert.assertEquals(isValidHttpUrl({ url: 'http://example.com' }), true)
@@ -33,3 +33,17 @@ Deno.test(
   }
 );
 
+Deno.test(
+  "generateFileName should return correct filename for pdf type",
+  () => {
+    const timestamp = /^prefix_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.pdf$/;
+    assert.assert(generateFileName("prefix", "pdf").match(timestamp));
+  }
+);
+
+Deno.test("generateFileName should handle empty prefix", () => {
+  const tm = getTimestamp({ type: "log" });
+  assert.assertEquals(generateFileName("", "log"), `_${tm}.log`);
+  const timestamp = /^_\d{4}-\d{2}-\d{2}\.log$/;
+  assert.assert(generateFileName("", "log").match(timestamp));
+});
