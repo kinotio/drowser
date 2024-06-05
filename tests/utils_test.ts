@@ -1,5 +1,5 @@
 import { assert } from '../deps.ts'
-import { isValidHttpUrl, getTimestamp, generateFileName, humanizeDuration } from '../src/utils.ts'
+import { isValidHttpUrl, getTimestamp, generateFileName, humanizeDuration, getCurrentMonth } from '../src/utils.ts'
 
 Deno.test('isValidHttpUrl should return true for valid HTTP URLs', () => {
 	assert.assertEquals(isValidHttpUrl({ url: 'http://example.com' }), true)
@@ -102,3 +102,22 @@ Deno.test(
   }
 );
 
+Deno.test(
+  "getCurrentMonth should return correct month name for long type",
+  () => {
+    assert.assertEquals(
+      getCurrentMonth({ type: "long" }),
+      new Date().toLocaleString("en-US", { month: "long" })
+    );
+  }
+);
+
+Deno.test(
+  "getCurrentMonth should return correct month abbreviation for short type",
+  () => {
+    assert.assertEquals(
+      getCurrentMonth({ type: "short" }),
+      new Date().toLocaleString("en-US", { month: "short" })
+    );
+  }
+);
