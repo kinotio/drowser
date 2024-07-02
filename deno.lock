@@ -18,7 +18,8 @@
       "npm:lodash": "npm:lodash@4.17.21",
       "npm:pdfkit": "npm:pdfkit@0.15.0",
       "npm:pdfkit-table": "npm:pdfkit-table@0.1.99",
-      "npm:selenium-webdriver": "npm:selenium-webdriver@4.19.0"
+      "npm:selenium-webdriver": "npm:selenium-webdriver@4.19.0",
+      "npm:selenium-webdriver@4.19.0": "npm:selenium-webdriver@4.19.0"
     },
     "jsr": {
       "@std/assert@0.223.0": {
