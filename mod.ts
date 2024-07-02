@@ -1,2 +1,4 @@
 import driver from './src/driver.ts'
-export { driver }
+import type { TDriverBrowserCaseParams as ServiceCaseParams } from './src/types.ts'
+
+export { driver, ServiceCaseParams }

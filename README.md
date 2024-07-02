@@ -38,7 +38,7 @@ In your test file , you can define a sample test like this:
 With this test we only test this sample code inside a Chrome ,Firefox but you can create a test for another web browser like Edge, Safari 🚀
 
 ```ts
-import { driver } from "https://deno.land/x/drowser@v0.1.4/mod.ts";
+import { driver } from "https://deno.land/x/drowser@v0.1.5/mod.ts";
 
 driver({ browser: "chrome" })
   .then(({ service }) => {
@@ -91,4 +91,4 @@ You can import this reports inside of the studio to visualize all the metrics fo
 
 ## LICENSE
 
-[MIT](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

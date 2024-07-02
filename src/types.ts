@@ -43,7 +43,7 @@ export type TDriverServiceCaseParamsAssert = typeof assert
 
 export type TDriverServiceCaseParamsBy = typeof By
 
-type TDriverBrowserCaseParams = {
+export type TDriverBrowserCaseParams = {
 	builder: TDriverServiceCaseParamsBuilder
 	assert: TDriverServiceCaseParamsAssert
 	by: TDriverServiceCaseParamsBy
