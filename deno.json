@@ -1,5 +1,5 @@
 {
-  "name": "@andostronaut/drowser",
+  "name": "@kinotio/drowser",
   "version": "0.1.5",
   "exports": "./mod.ts",
   "importMap": "./import_map.json",
