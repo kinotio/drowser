@@ -21,9 +21,9 @@ A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 ## Configuration
 
-You need to create a drowser.json in root directory and define some configuration like this:
+Create a drowser.json in root directory and define some configuration like this:
 
-- `url`: The url of platform or website you want to test
+- `url`: The url of platform or website that need to be test
 
 ```json
 {
@@ -31,11 +31,19 @@ You need to create a drowser.json in root directory and define some configuratio
 }
 ```
 
+## Deno 2
+
+Install npm dependecies on `node_modules` with this command:
+
+```sh
+deno install --allow-scripts
+```
+
 ## Usage
 
-In your test file , you can define a sample test like this:
+In test file , Define a sample test like this:
 
-With this test we only test this sample code inside a Chrome ,Firefox but you can create a test for another web browser like Edge, Safari 🚀
+With this test we only test this sample code inside a Chrome ,Firefox but create a test for another web browser like Edge, Safari 🚀
 
 ```ts
 import { driver } from "https://deno.land/x/drowser@v0.1.6/mod.ts";
@@ -87,7 +95,7 @@ driver({ browser: "firefox" })
 
 Each test case is saved inside the `drowser-reports.json` file , and this file is exploitable inside the `Drowser Studio` who is developed by the `Kinotio` Team in this [repo](https://github.com/kinotio/drowser-studio) , who is open-source
 
-You can import this reports inside of the studio to visualize all the metrics for main cases or each test case
+Import this reports inside of the studio to visualize all the metrics for main cases or each test case
 
 ## LICENSE
 
