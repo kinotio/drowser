@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "exports": "./mod.ts",
   "importMap": "./import_map.json",
+  "nodeModulesDir": "auto",
   "tasks": {
     "run:example:basic": "deno run -A examples/basic.ts",
     "watch:example:basic": "deno run -A --watch examples/basic.ts"

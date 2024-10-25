@@ -3,3 +3,4 @@ dist/
 .env
 drowser
 drowser-reports.json
+/node_modules

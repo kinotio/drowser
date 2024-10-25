@@ -33,8 +33,8 @@ export {
 	nanoid,
 	readJson,
 	readJsonSync,
-	TBy,
-	ThenableWebDriver,
 	writeJson,
 	writeJsonSync,
 }
+
+export type { TBy, ThenableWebDriver }
