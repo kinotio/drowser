@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         deno-version:
-          - 1.42.4
+          - 2.0.1
 
     steps:
       - name: Checkout Code
