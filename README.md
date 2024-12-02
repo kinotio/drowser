@@ -93,6 +93,8 @@ driver({ browser: "firefox" })
 
 ## Drowser Studio
 
+> Note: The `Drowser Studio` is a community-driven project and is open-source.
+
 Each test case is saved inside the `drowser-reports.json` file , and this file is exploitable inside the `Drowser Studio` who is developed by the `Kinotio` Team in this [repo](https://github.com/kinotio/drowser-studio) , who is open-source
 
 Import this reports inside of the studio to visualize all the metrics for main cases or each test case
@@ -100,6 +102,10 @@ Import this reports inside of the studio to visualize all the metrics for main c
 ## Report
 
 The `drowser-reports.json` file provides a comprehensive overview of the test execution metrics and individual test case details. This file is generated after running your tests and can be used to analyze the results and performance of your test suite.
+
+You can import the `drowser-reports.json` file into the [Drowser Studio](https://drowser.kinotio.io/) to visualize and analyze the metrics for each test case. This helps in identifying issues, understanding test coverage, and improving the overall quality of your test suite.
+
+For more details on how to use [Drowser Studio](https://drowser.kinotio.io/), refer to the [Drowser Studio Repository](https://github.com/kinotio/drowser-studio).
 
 ### Report Structure
 
@@ -138,14 +144,6 @@ The `drowser-reports.json` file provides a comprehensive overview of the test ex
 
 - **Metadata**: Additional information about the test execution.
   - **Current Month**: The current month of the test execution.
-
-### Usage
-
-You can import the `drowser-reports.json` file into the [Drowser Studio](https://drowser.kinotio.io/) to visualize and analyze the metrics for each test case. This helps in identifying issues, understanding test coverage, and improving the overall quality of your test suite.
-
-For more details on how to use [Drowser Studio](https://drowser.kinotio.io/), refer to the [Drowser Studio Repository](https://github.com/kinotio/drowser-studio).
-
-> Note: The `Drowser Studio` is a community-driven project and is open-source.
 
 ## LICENSE
 
