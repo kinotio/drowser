@@ -137,3 +137,29 @@ export type TJSON = {
 		]
 	}
 }
+
+const types = {
+	TDriverParams: {} as TDriverParams,
+	TDriverBrowser: {} as TDriverBrowser,
+	TConfigJSON: {} as TConfigJSON,
+	TData: {} as TData,
+	TDrowserThenableWebDriver: {} as TDrowserThenableWebDriver,
+	TDrowserBuilder: {} as TDrowserBuilder,
+	TDriverServiceCaseParamsBuilder: {} as TDriverServiceCaseParamsBuilder,
+	TDriverServiceCaseParamsAssert: {} as TDriverServiceCaseParamsAssert,
+	TDriverServiceCaseParamsBy: {} as TDriverServiceCaseParamsBy,
+	TDriverBrowserCaseParams: {} as TDriverBrowserCaseParams,
+	TDrowserServiceCase: {} as TDrowserServiceCase,
+	TDrowserService: {} as TDrowserService,
+	TCaseFn: {} as TCaseFn,
+	TDrowserDriverResponse: {} as TDrowserDriverResponse,
+	TAssertFunction: {} as TAssertFunction,
+	TAssertError: {} as TAssertError,
+	TIsValidHttpUrlParams: {} as TIsValidHttpUrlParams,
+	DataPoint: {} as DataPoint,
+	DataSet: {} as DataSet,
+	MonthCount: {} as MonthCount,
+	MonthValue: {} as MonthValue,
+}
+
+export default types
