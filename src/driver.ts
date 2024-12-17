@@ -1,13 +1,13 @@
 import { assert, Builder, By, isEmpty, join, Kia } from '../deps.ts'
 import type {
-	TCaseFn,
-	TConfigJSON,
-	TData,
-	TDriverParams,
-	TDriverServiceCaseParamsBuilder,
-	TDrowserDriverResponse,
-	TDrowserServiceCase,
-	TDrowserThenableWebDriver,
+	CaseFn,
+	ConfigJSON,
+	Data,
+	DriverParams,
+	DriverServiceCaseParamsBuilder,
+	DrowserDriverResponse,
+	DrowserServiceCase,
+	DrowserThenableWebDriver,
 } from './types.ts'
 import { isValidHttpUrl, result as resultData } from './utils.ts'
 import {
@@ -20,13 +20,13 @@ import { exportGeneratedLog, exportJSONReport } from './export.ts'
 
 const driver = async ({
 	browser,
-}: TDriverParams): Promise<TDrowserDriverResponse> => {
-	const data: TData = { url: '', results: [] }
+}: DriverParams): Promise<DrowserDriverResponse> => {
+	const data: Data = { url: '', results: [] }
 	const configPath = join(Deno.cwd(), 'drowser.json')
 
 	try {
 		await Deno.stat(configPath)
-		const { url }: TConfigJSON = JSON.parse(
+		const { url }: ConfigJSON = JSON.parse(
 			await Deno.readTextFile(configPath),
 		)
 
@@ -39,7 +39,9 @@ const driver = async ({
 		data.url = url
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
-			throw new Error('An error occurred, please create drowser.json file.')
+			throw new Error(
+				'An error occurred, please create drowser.json file.',
+			)
 		}
 
 		if (!(error instanceof Deno.errors.NotFound)) {
@@ -50,15 +52,17 @@ const driver = async ({
 	}
 
 	if (isEmpty(browser) || !driverBrowserList.includes(browser)) {
-		throw new Error('An error occurred, please provide a valid browser driver')
+		throw new Error(
+			'An error occurred, please provide a valid browser driver',
+		)
 	}
 
-	return new Promise<TDrowserDriverResponse>((resolve, reject) => {
+	return new Promise<DrowserDriverResponse>((resolve, reject) => {
 		if (isEmpty(data.url) || !isValidHttpUrl({ url: data.url })) reject()
 
 		const builder = new Builder()
 			.forBrowser(driverBrowsers[browser])
-			.build() as TDrowserThenableWebDriver
+			.build() as DrowserThenableWebDriver
 
 		const service = { cases: [] }
 
@@ -75,16 +79,16 @@ const driver = async ({
 			.finally(() => {
 				const methodPromises: Promise<void>[] = []
 
-				service.cases.forEach((c: TDrowserServiceCase) => {
+				service.cases.forEach((c: DrowserServiceCase) => {
 					if (typeof c === 'object') {
 						const omitedBuilder =
-							builder as unknown as TDriverServiceCaseParamsBuilder
+							builder as unknown as DriverServiceCaseParamsBuilder
 						const megaBuilder = {
 							builder: omitedBuilder,
 							assert,
 							by: By,
 						}
-						const method = c.fn as TCaseFn
+						const method = c.fn as CaseFn
 						const methodPromise = method(megaBuilder)
 
 						const start = performance.now()

@@ -1,84 +1,84 @@
 import { assert } from '../deps.ts'
 import type { By, ThenableWebDriver } from '../deps.ts'
 
-export type TDriverParams = {
-	browser: TDriverBrowser
+export type DriverParams = {
+	browser: DriverBrowser
 }
 
-export type TDriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'
+export type DriverBrowser = 'chrome' | 'firefox' | 'safari' | 'edge'
 
-export type TConfigJSON = {
+export type ConfigJSON = {
 	url: string
 	exportPdf: boolean
 }
 
-export type TDataResult = {
+export type DataResult = {
 	id?: string
 	name: string
 	status: string
 	timestamp?: Date
 	duration: number
 	month_of_test?: string
-	browser: TDriverBrowser
+	browser: DriverBrowser
 }
 
-export type TData = {
+export type Data = {
 	url: string
-	results: Array<TDataResult>
+	results: Array<DataResult>
 }
 
-export type TDrowserThenableWebDriver = ThenableWebDriver
+export type DrowserThenableWebDriver = ThenableWebDriver
 
-export type TDrowserBuilder = Omit<
+export type DrowserBuilder = Omit<
 	ThenableWebDriver,
 	'get'
 >
 
-export type TDriverServiceCaseParamsBuilder = Omit<
+export type DriverServiceCaseParamsBuilder = Omit<
 	ThenableWebDriver,
 	'get' | 'quit' | 'then' | 'catch' | 'close' | 'finally'
 >
 
-export type TDriverServiceCaseParamsAssert = typeof assert
+export type DriverServiceCaseParamsAssert = typeof assert
 
-export type TDriverServiceCaseParamsBy = typeof By
+export type DriverServiceCaseParamsBy = typeof By
 
-export type TDriverBrowserCaseParams = {
-	builder: TDriverServiceCaseParamsBuilder
-	assert: TDriverServiceCaseParamsAssert
-	by: TDriverServiceCaseParamsBy
+export type DriverBrowserCaseParams = {
+	builder: DriverServiceCaseParamsBuilder
+	assert: DriverServiceCaseParamsAssert
+	by: DriverServiceCaseParamsBy
 }
 
-export type TDrowserServiceCase = {
+export type DrowserServiceCase = {
 	name: string
 	fn: (
-		params: TDriverBrowserCaseParams,
+		params: DriverBrowserCaseParams,
 	) => void
 }
 
-export type TDrowserService = {
-	cases: Array<TDrowserServiceCase>
+export type DrowserService = {
+	cases: Array<DrowserServiceCase>
 }
 
-export type TCaseFn = (
-	params: TDriverBrowserCaseParams,
+export type CaseFn = (
+	params: DriverBrowserCaseParams,
 ) => Promise<void>
 
-export type TDrowserDriverResponse = {
-	service: TDrowserService
+export type DrowserDriverResponse = {
+	service: DrowserService
 }
 
-export type TAssertFunction = (
+export type AssertFunction = (
 	actual: unknown,
 	expected: unknown,
 	msg?: string,
 ) => void
 
-export type TAssertError = {
+export type AssertError = {
 	name: string
 }
 
-export type TIsValidHttpUrlParams = {
+export type IsValidHttpUrlParams = {
 	url: string
 }
 
@@ -102,7 +102,7 @@ export type MonthValue = {
 	value: number
 }
 
-export type TJSON = {
+export type ReportSchema = {
 	drowser: {
 		metadata: {
 			current_month: string
@@ -131,35 +131,36 @@ export type TJSON = {
 				coverage: number
 				flaky: number
 				month_of_test: string
-				browser: TDriverBrowser
-				cases: Array<TDataResult>
+				browser: DriverBrowser
+				cases: Array<DataResult>
 			},
 		]
 	}
 }
 
 const types = {
-	TDriverParams: {} as TDriverParams,
-	TDriverBrowser: {} as TDriverBrowser,
-	TConfigJSON: {} as TConfigJSON,
-	TData: {} as TData,
-	TDrowserThenableWebDriver: {} as TDrowserThenableWebDriver,
-	TDrowserBuilder: {} as TDrowserBuilder,
-	TDriverServiceCaseParamsBuilder: {} as TDriverServiceCaseParamsBuilder,
-	TDriverServiceCaseParamsAssert: {} as TDriverServiceCaseParamsAssert,
-	TDriverServiceCaseParamsBy: {} as TDriverServiceCaseParamsBy,
-	TDriverBrowserCaseParams: {} as TDriverBrowserCaseParams,
-	TDrowserServiceCase: {} as TDrowserServiceCase,
-	TDrowserService: {} as TDrowserService,
-	TCaseFn: {} as TCaseFn,
-	TDrowserDriverResponse: {} as TDrowserDriverResponse,
-	TAssertFunction: {} as TAssertFunction,
-	TAssertError: {} as TAssertError,
-	TIsValidHttpUrlParams: {} as TIsValidHttpUrlParams,
+	TDriverParams: {} as DriverParams,
+	DriverBrowser: {} as DriverBrowser,
+	ConfigJSON: {} as ConfigJSON,
+	Data: {} as Data,
+	DrowserThenableWebDriver: {} as DrowserThenableWebDriver,
+	DrowserBuilder: {} as DrowserBuilder,
+	DriverServiceCaseParamsBuilder: {} as DriverServiceCaseParamsBuilder,
+	DriverServiceCaseParamsAssert: {} as DriverServiceCaseParamsAssert,
+	DriverServiceCaseParamsBy: {} as DriverServiceCaseParamsBy,
+	DriverBrowserCaseParams: {} as DriverBrowserCaseParams,
+	DrowserServiceCase: {} as DrowserServiceCase,
+	DrowserService: {} as DrowserService,
+	CaseFn: {} as CaseFn,
+	DrowserDriverResponse: {} as DrowserDriverResponse,
+	AssertFunction: {} as AssertFunction,
+	AssertError: {} as AssertError,
+	IsValidHttpUrlParams: {} as IsValidHttpUrlParams,
 	DataPoint: {} as DataPoint,
 	DataSet: {} as DataSet,
 	MonthCount: {} as MonthCount,
 	MonthValue: {} as MonthValue,
+	ReportSchema: {} as ReportSchema,
 }
 
 export default types
