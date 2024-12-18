@@ -12,7 +12,8 @@ const driverBrowsers: Record<string, string> = {
 const seleniumExceptions: Record<string, string> = {
 	WebDriverError: 'General WebDriver error.',
 	NoSuchElementError: 'The requested element could not be found in the DOM.',
-	TimeoutError: 'The operation did not complete within the specified timeout.',
+	TimeoutError:
+		'The operation did not complete within the specified timeout.',
 	SessionNotCreatedError: 'A new session could not be created.',
 	ScriptTimeoutError: 'A script execution timeout occurred.',
 	StaleElementReferenceError:

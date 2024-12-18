@@ -17,15 +17,15 @@ import {
 } from './utils.ts'
 import {
 	DataPoint,
+	DataResult,
+	DriverBrowser,
 	MonthCount,
 	MonthValue,
-	TDataResult,
-	TDriverBrowser,
-	TJSON,
+	ReportSchema,
 } from './types.ts'
 
 const exportGeneratedLog = (
-	{ results }: { results: Array<TDataResult> },
+	{ results }: { results: Array<DataResult> },
 ): void => {
 	const dirPath = join(Deno.cwd(), 'drowser/logs')
 	const hasDir = existsSync(dirPath)
@@ -40,7 +40,8 @@ const exportGeneratedLog = (
 
 		const writeResult = () =>
 			results.forEach((r) => {
-				const logRow = `[${r.timestamp}] - Test with ${r.name} is ${r.status}`
+				const logRow =
+					`[${r.timestamp}] - Test with ${r.name} is ${r.status}`
 				Deno.writeTextFile(logFilePath, `${logRow}\n`, { append: true })
 			})
 
@@ -55,8 +56,8 @@ const exportGeneratedLog = (
 
 const exportJSONReport = (
 	{ results, browser }: {
-		results: Array<TDataResult>
-		browser: TDriverBrowser
+		results: Array<DataResult>
+		browser: DriverBrowser
 	},
 ): void => {
 	const filePath = join(Deno.cwd(), 'drowser-reports.json')
@@ -73,7 +74,7 @@ const exportJSONReport = (
 	}
 
 	if (Array.isArray(results) && results.length > 0) {
-		const jsonData = readJsonSync(filePath) as TJSON
+		const jsonData = readJsonSync(filePath) as ReportSchema
 
 		const month = getCurrentMonth({ type: 'short' })
 
@@ -83,11 +84,12 @@ const exportJSONReport = (
 			}
 		}
 
-		const flatedTotalTests = jsonData.drowser.metadata.current_month === month
-			? jsonData.drowser.cases.flatMap((item) => item.cases).filter((c) =>
-				c.month_of_test === month
-			)
-			: []
+		const flatedTotalTests =
+			jsonData.drowser.metadata.current_month === month
+				? jsonData.drowser.cases.flatMap((item) => item.cases).filter((
+					c,
+				) => c.month_of_test === month)
+				: []
 		const totalTests = [
 			...flatedTotalTests,
 			...results,
@@ -120,7 +122,9 @@ const exportJSONReport = (
 			({ status }: { status: string }) => status,
 		)
 
-		const CombinedTestCoverage = getCoverage({ results: CombinedTotalTests })
+		const CombinedTestCoverage = getCoverage({
+			results: CombinedTotalTests,
+		})
 
 		const CombinedAvgTestDuration = getAverageDuration({
 			results: CombinedTotalTests,
@@ -149,15 +153,15 @@ const exportJSONReport = (
 							.data as DataPoint[] ?? [],
 					},
 				],
-				passing_tests:
-					jsonData?.drowser?.metrics?.graphs?.passing_tests as MonthCount[] ??
-						[],
-				failed_tests:
-					jsonData?.drowser?.metrics?.graphs?.failed_tests as MonthCount[] ??
-						[],
-				test_coverage:
-					jsonData?.drowser?.metrics?.graphs?.test_coverage as MonthCount[] ??
-						[],
+				passing_tests: jsonData?.drowser?.metrics?.graphs
+					?.passing_tests as MonthCount[] ??
+					[],
+				failed_tests: jsonData?.drowser?.metrics?.graphs
+					?.failed_tests as MonthCount[] ??
+					[],
+				test_coverage: jsonData?.drowser?.metrics?.graphs
+					?.test_coverage as MonthCount[] ??
+					[],
 				avg_test_duration: jsonData?.drowser?.metrics?.graphs
 					?.avg_test_duration as MonthCount[] ?? [],
 				flaky_tests: jsonData?.drowser?.metrics?.graphs
