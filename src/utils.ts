@@ -1,8 +1,8 @@
 import { nanoid } from '../deps.ts'
-import { TDataResult, TIsValidHttpUrlParams } from './types.ts'
+import { DataResult, IsValidHttpUrlParams } from './types.ts'
 import { caseStatus } from './constants.ts'
 
-const isValidHttpUrl = ({ url }: TIsValidHttpUrlParams): boolean => {
+const isValidHttpUrl = ({ url }: IsValidHttpUrlParams): boolean => {
 	try {
 		const newUrl = new URL(url)
 		return newUrl.protocol === 'http:' || newUrl.protocol === 'https:'
@@ -49,13 +49,13 @@ const humanizeDuration = (durationMs: number): string => {
 	return humanized.trim()
 }
 
-const getAverageDuration = ({ results }: { results: Array<TDataResult> }) => {
+const getAverageDuration = ({ results }: { results: Array<DataResult> }) => {
 	const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
 	const averageDuration = totalDuration / results.length
 	return averageDuration
 }
 
-const getCoverage = ({ results }: { results: Array<TDataResult> }) => {
+const getCoverage = ({ results }: { results: Array<DataResult> }) => {
 	const totalTests = results.length
 	const passedTests =
 		results.filter((r) => r.status === caseStatus.passed).length
@@ -63,7 +63,7 @@ const getCoverage = ({ results }: { results: Array<TDataResult> }) => {
 	return coveragePercentage
 }
 
-const getFlaky = ({ results }: { results: Array<TDataResult> }) => {
+const getFlaky = ({ results }: { results: Array<DataResult> }) => {
 	const flakyTestCount = (() => {
 		const resultMap = new Map<string, unknown[]>()
 
@@ -120,7 +120,7 @@ const result = (
 		status,
 		duration,
 		browser,
-	}: TDataResult,
+	}: DataResult,
 ) => {
 	return {
 		id: nanoid(),
