@@ -139,7 +139,7 @@ export type ReportSchema = {
 }
 
 const Types = {
-	TDriverParams: {} as DriverParams,
+	DriverParams: {} as DriverParams,
 	DriverBrowser: {} as DriverBrowser,
 	ConfigJSON: {} as ConfigJSON,
 	Data: {} as Data,
