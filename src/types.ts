@@ -138,7 +138,7 @@ export type ReportSchema = {
 	}
 }
 
-const types = {
+const Types = {
 	TDriverParams: {} as DriverParams,
 	DriverBrowser: {} as DriverBrowser,
 	ConfigJSON: {} as ConfigJSON,
@@ -163,4 +163,4 @@ const types = {
 	ReportSchema: {} as ReportSchema,
 }
 
-export default types
+export default Types

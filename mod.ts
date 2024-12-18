@@ -1,4 +1,5 @@
 import driver from './src/driver.ts'
-import types from './src/types.ts'
+import type Types from './src/types.ts'
 
-export { driver, types }
+export { driver }
+export type { Types }
