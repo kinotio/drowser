@@ -21,9 +21,9 @@ A easy way to implement and write Selenium with TypeScript using Deno 🦕
 
 ## Configuration
 
-Create a drowser.json in root directory and define some configuration like this:
+Create a drowser.json in the root directory and define some configuration like this:
 
-- `url`: The url of platform or website that need to be test
+- `url`: The URL of platform or website that needs to be tested
 
 ```json
 {
@@ -41,9 +41,9 @@ deno install --allow-scripts
 
 ## Usage
 
-In test file , Define a sample test like this:
+In the test file, define a sample test like this:
 
-With this test we only test this sample code inside a Chrome ,Firefox but create a test for another web browser like Edge, Safari 🚀
+With this test, we only test this sample code inside a Chrome, Firefox but create a test for another web browser like Edge, Safari 🚀
 
 ```ts
 import { driver } from "https://deno.land/x/drowser@v0.1.6/mod.ts";
@@ -110,6 +110,7 @@ For more details on how to use [Drowser Studio](https://drowser.kinotio.io/), re
 ### Report Structure
 
 - **Metrics**: High-level summary of the test execution.
+
   - **Total Tests**: The total number of tests executed.
   - **Passing Tests**: The number of tests that passed.
   - **Failed Tests**: The number of tests that failed.
@@ -118,6 +119,7 @@ For more details on how to use [Drowser Studio](https://drowser.kinotio.io/), re
   - **Flaky Tests**: The number of tests that are inconsistent in their results.
 
 - **Graphs**: Visual representation of the metrics over time.
+
   - **Total Tests**: Monthly data showing the number of tests executed.
   - **Passing Tests**: Monthly data showing the number of tests that passed.
   - **Failed Tests**: Monthly data showing the number of tests that failed.
@@ -126,6 +128,7 @@ For more details on how to use [Drowser Studio](https://drowser.kinotio.io/), re
   - **Flaky Tests**: Monthly data showing the number of flaky tests.
 
 - **Test Cases**: Detailed information about each test case executed.
+
   - **ID**: Unique identifier for the test case.
   - **Time**: Timestamp of when the test was executed.
   - **Average Duration**: Average time taken for the test case.
