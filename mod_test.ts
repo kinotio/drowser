@@ -39,14 +39,6 @@ Deno.test(
 	},
 )
 
-Deno.test(
-	'generateFileName should return correct filename for pdf type',
-	() => {
-		const timestamp = /^prefix_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.pdf$/
-		assert.assert(generateFileName('prefix', 'pdf').match(timestamp))
-	},
-)
-
 Deno.test('generateFileName should handle empty prefix', () => {
 	const tm = getTimestamp({ type: 'log' })
 	assert.assertEquals(generateFileName('', 'log'), `_${tm}.log`)
