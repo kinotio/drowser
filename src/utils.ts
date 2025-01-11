@@ -24,7 +24,7 @@ const getTimestamp = ({ type = 'log' }: { type: 'log' | 'pdf' }): string => {
 		: `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`
 }
 
-const generateFileName = (prefix: string, ext: 'log' | 'pdf'): string => {
+const generateFileName = (prefix: string, ext: 'log'): string => {
 	const timestamp = getTimestamp({ type: ext })
 	return `${prefix}_${timestamp}.${ext}`
 }
